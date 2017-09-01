@@ -62,13 +62,14 @@ values."
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+     lua
      extra-langs
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(multiple-cursors) ;; smart-tabs-mode
+   dotspacemacs-additional-packages '(multiple-cursors)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -329,15 +330,19 @@ you should place your code here."
   ;; disable auto fill
   (remove-hook 'LaTeX-mode-hook 'latex/auto-fill-mode)
 
-  ;; enable tabs indent
-  (add-hook 'LaTeX-mode-hook
-            (lambda ()
-              (setq indent-tabs-mode t)
-              (setq tab-width (default-value 'tab-width))))
-
   ;; latex normal text (not big titles, neither formulas trick)
   (setq font-latex-fontify-sectioning 'color)
   (setq font-latex-fontify-script nil)
+
+  ;; ;; LaTeX with lua inside
+  ;; (setq mmm-global-mode 'maybe)
+  ;; (setq mmm-submode-decoration-level 2)
+  ;; (mmm-add-classes
+  ;;  '((mmm-objc-latex
+  ;;     :submode lua-mode
+  ;;     :front "^\\\\startluacode\n"
+  ;;     :back "^\\\\startluacode"
+  ;;     )))
 
   ;; make printer mode the default one when opening a pdf
   (add-hook 'pdf-view-mode-hook 'pdf-view-printer-minor-mode)
@@ -368,7 +373,7 @@ you should place your code here."
   (global-whitespace-mode)
 
   ;; shortcut for whitespace options
-  (global-set-key (kbd "C-à") 'whitespace-toggle-options)
+  (global-set-key (kbd "s-w") 'whitespace-toggle-options)
 
   ;; no whitespace in line-numbering
   (add-hook 'linum-before-numbering-hook
@@ -404,14 +409,26 @@ you should place your code here."
    version-control 'numbered)
 
   ;; tabs settings
+
+  (setq-default indent-tabs-mode nil)
+
   (add-hook 'python-mode-hook
             (lambda ()
-              (setq python-indent-offset 4)
+              (setq python-indent-offset 3)
               (setq indent-tabs-mode t)
               (setq tab-width (default-value 'tab-width))))
   (add-hook 'c++-mode-hook
             (lambda ()
-              ;; (setq python-indent-offset 4)
+              ;; (setq python-indent-offset 2)
+              (setq indent-tabs-mode t)
+              (setq tab-width (default-value 'tab-width))))
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode t)
+              (setq tab-width (default-value 'tab-width))))
+  (add-hook 'ConTeXt-mode-hook
+            (lambda ()
+              (setq ConTeXt-indent-item 0)
               (setq indent-tabs-mode t)
               (setq tab-width (default-value 'tab-width))))
 
@@ -425,7 +442,7 @@ you should place your code here."
   ;; multiple cursors support
   (require 'multiple-cursors)
   (global-set-key (kbd "s-m") 'mc/edit-lines)
-  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+  (global-set-key (kbd "C-M-<mouse-1>") 'mc/add-cursor-on-click)
 
   ;; support for moving lines
   (defmacro save-column (&rest body)
@@ -482,11 +499,13 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ConTeXt-Mark-version "IV")
  '(LaTeX-item-indent 0)
+ '(TeX-master nil)
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+    (emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
