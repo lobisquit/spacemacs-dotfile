@@ -373,7 +373,7 @@ you should place your code here."
   (global-whitespace-mode)
 
   ;; shortcut for whitespace options
-  (global-set-key (kbd "s-w") 'whitespace-toggle-options)
+  (global-set-key (kbd "s-o") 'whitespace-toggle-options)
 
   ;; no whitespace in line-numbering
   (add-hook 'linum-before-numbering-hook
@@ -422,15 +422,46 @@ you should place your code here."
               ;; (setq python-indent-offset 2)
               (setq indent-tabs-mode t)
               (setq tab-width (default-value 'tab-width))))
+
+  ;; latex align tables, found here https://thenybble.de/projects/inhibit-auto-fill.html
+  (defun LaTeX-collapse-table ()
+    "Properly format table"
+    (interactive)
+    (save-excursion
+      (LaTeX-mark-environment)
+      (while (re-search-forward "[[:space:]]+\\(&\\|\\\\\\\\\\)" (region-end) t)
+        (replace-match " \\1"))))
+
+  (defun LaTeX-align-environment (arg)
+    "Align fields in table"
+    (interactive "P")
+    (if arg (LaTeX-collapse-table)
+      ;; use spaces for alignment, even if tabs are preferred
+      (let ((indent-tabs-mode nil))
+        (save-excursion
+          (LaTeX-mark-environment)
+          (align (region-beginning) (region-end))))))
+
+  (add-hook 'LaTeX-mode-hook
+            (lambda () (local-set-key (kbd "C-c f") 'LaTeX-align-environment)))
+
   (add-hook 'LaTeX-mode-hook
             (lambda ()
               (setq indent-tabs-mode t)
-              (setq tab-width (default-value 'tab-width))))
+              (setq tab-width (default-value 'tab-width))
+              ;; alternative latex build & view command
+              (local-set-key (kbd "s-e")
+                             (lambda ()
+                               (interactive)
+                               (let ((TeX-save-query nil))
+                                 (TeX-command-sequence t t))
+                               ))))
   (add-hook 'ConTeXt-mode-hook
             (lambda ()
               (setq ConTeXt-indent-item 0)
               (setq indent-tabs-mode t)
-              (setq tab-width (default-value 'tab-width))))
+              (setq tab-width (default-value 'tab-width))
+              ))
 
   ;; isort on save of python file
   (require 'py-isort)
@@ -499,6 +530,12 @@ you should place your code here."
   (global-set-key (kbd "<XF86AudioStop>") 'mingus-stop)
   (global-set-key (kbd "<XF86AudioPrev>") 'mingus-prev)
   (global-set-key (kbd "<XF86AudioNext>") 'mingus-next)
+
+  ;; alternative save command
+  (global-set-key (kbd "s-w") 'save-buffer)
+
+  ;; disable overwrite mode when pressing Ins button
+  (define-key global-map [(insert)] nil)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
