@@ -325,68 +325,14 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  ;; LaTeX
+  ;; load configurations, moved to specific files
+  (add-to-list 'load-path "~/.spacemacs.d/")
 
-  ;; disable auto fill
-  (remove-hook 'LaTeX-mode-hook 'latex/auto-fill-mode)
+  (load "latex")
+  (latex-configurations)
 
-  ;; latex normal text (not big titles, neither formulas trick)
-  (setq font-latex-fontify-sectioning 'color)
-  (setq font-latex-fontify-script nil)
-
-  ;; ;; LaTeX with lua inside
-  ;; (setq mmm-global-mode 'maybe)
-  ;; (setq mmm-submode-decoration-level 2)
-  ;; (mmm-add-classes
-  ;;  '((mmm-objc-latex
-  ;;     :submode lua-mode
-  ;;     :front "^\\\\startluacode\n"
-  ;;     :back "^\\\\startluacode"
-  ;;     )))
-
-  ;; make printer mode the default one when opening a pdf
-  (add-hook 'pdf-view-mode-hook 'pdf-view-printer-minor-mode)
-
-  ;; autocompile
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-
-  ;; use pdf-tools to open PDF files
-  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-        TeX-source-correlate-start-server t)
-
-  ;; update PDF buffers after successful LaTeX runs
-  (add-hook 'TeX-after-TeX-LaTeX-command-finished-hook
-            #'TeX-revert-document-buffer)
-
-  ;; whitespace
-  (require 'whitespace)
-  (setq whitespace-style '(face
-                           trailing
-                           tabs
-                           spaces
-                           ;; empty
-                           ;; space-mark
-                           tab-mark
-                           ))
-
-  (setq whitespace-space-regexp "\\(^ +\\)")
-  (global-whitespace-mode)
-
-  ;; shortcut for whitespace options
-  (global-set-key (kbd "s-o") 'whitespace-toggle-options)
-
-  ;; no whitespace in line-numbering
-  (add-hook 'linum-before-numbering-hook
-            (lambda ()
-              (let ((w (+ 1 (length (number-to-string (count-lines (point-min) (point-max)))))))
-                (setq linum-format
-                      `(lambda (line)
-                         (propertize (concat
-                                      (truncate-string-to-width
-                                       "" (- ,w (length (number-to-string line)))
-                                       nil ?\x2007)
-                                      (number-to-string line))
-                                     'face 'linum))))))
+  (load "whitespace")
+  (whitespace-configurations)
 
   ;; wrap lines at word boundaries, not in any char
   (global-visual-line-mode 1)
@@ -422,40 +368,6 @@ you should place your code here."
               ;; (setq python-indent-offset 2)
               (setq indent-tabs-mode t)
               (setq tab-width (default-value 'tab-width))))
-
-  ;; latex align tables, found here https://thenybble.de/projects/inhibit-auto-fill.html
-  (defun LaTeX-collapse-table ()
-    "Properly format table"
-    (interactive)
-    (save-excursion
-      (LaTeX-mark-environment)
-      (while (re-search-forward "[[:space:]]+\\(&\\|\\\\\\\\\\)" (region-end) t)
-        (replace-match " \\1"))))
-
-  (defun LaTeX-align-environment (arg)
-    "Align fields in table"
-    (interactive "P")
-    (if arg (LaTeX-collapse-table)
-      ;; use spaces for alignment, even if tabs are preferred
-      (let ((indent-tabs-mode nil))
-        (save-excursion
-          (LaTeX-mark-environment)
-          (align (region-beginning) (region-end))))))
-
-  (add-hook 'LaTeX-mode-hook
-            (lambda () (local-set-key (kbd "C-c f") 'LaTeX-align-environment)))
-
-  (add-hook 'LaTeX-mode-hook
-            (lambda ()
-              (setq indent-tabs-mode t)
-              (setq tab-width (default-value 'tab-width))
-              ;; alternative latex build & view command
-              (local-set-key (kbd "s-e")
-                             (lambda ()
-                               (interactive)
-                               (let ((TeX-save-query nil))
-                                 (TeX-command-sequence t t))
-                               ))))
   (add-hook 'ConTeXt-mode-hook
             (lambda ()
               (setq ConTeXt-indent-item 0)
@@ -546,13 +458,10 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ConTeXt-Mark-version "IV")
- '(LaTeX-item-indent 0)
- '(TeX-master nil)
- '(bongo-enabled-backends (quote (vlc)))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+    (counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
