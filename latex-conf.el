@@ -1,5 +1,4 @@
 (defun latex-configurations ()
-
   ;; disable auto fill
   (remove-hook 'LaTeX-mode-hook 'latex/auto-fill-mode)
 

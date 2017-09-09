@@ -328,10 +328,10 @@ you should place your code here."
   ;; load configurations, moved to specific files
   (add-to-list 'load-path "~/.spacemacs.d/")
 
-  (load "latex")
+  (load "latex-conf")
   (latex-configurations)
 
-  (load "whitespace")
+  (load "whitespace-conf")
   (whitespace-configurations)
 
   ;; wrap lines at word boundaries, not in any char
