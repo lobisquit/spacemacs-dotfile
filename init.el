@@ -329,22 +329,28 @@ you should place your code here."
   (add-to-list 'load-path "~/.spacemacs.d/")
 
   (load "latex-conf")
-  (latex-configurations)
+  (latex-configs)
 
-  (load "whitespace-conf")
-  (whitespace-configurations)
+  (load "org-mode-conf")
+  (org-mode-configs)
 
-  ;; wrap lines at word boundaries, not in any char
-  (global-visual-line-mode 1)
+  (load "mingus-conf")
+  (mingus-configs)
+
+  (load "python-conf")
+  (python-configs)
+
+  (load "navigation-conf")
+  (navigation-configs)
+
+  (load "visualization-conf")
+  (visualization-configs)
 
   ;; custom key binding for real hard tab, in any place
   (global-set-key [C-tab] (lambda () (interactive) (insert "\t")))
 
   ;; custom toggle comment
   (global-set-key (kbd "s-c") 'comment-line)
-
-  ;; move at actual beginning of the line (past indentation), not in the head
-  (global-set-key (kbd "C-a") 'back-to-indentation)
 
   ;; keep backup copies of files, but in .emacs directory
   (setq-default
@@ -354,15 +360,9 @@ you should place your code here."
    make-backup-files t
    version-control 'numbered)
 
-  ;; tabs settings
-
+  ;; tabs are *not* the default option
   (setq-default indent-tabs-mode nil)
 
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (setq python-indent-offset 3)
-              (setq indent-tabs-mode t)
-              (setq tab-width (default-value 'tab-width))))
   (add-hook 'c++-mode-hook
             (lambda ()
               ;; (setq python-indent-offset 2)
@@ -375,50 +375,8 @@ you should place your code here."
               (setq tab-width (default-value 'tab-width))
               ))
 
-  ;; isort on save of python file
-  (require 'py-isort)
-  (add-hook 'before-save-hook 'py-isort-before-save)
-
   ;; fast render of Markdown
   (require 'vmd-mode)
-
-  ;; multiple cursors support
-  (require 'multiple-cursors)
-  (global-set-key (kbd "s-m") 'mc/edit-lines)
-  (global-set-key (kbd "C-M-<mouse-1>") 'mc/add-cursor-on-click)
-
-  ;; support for moving lines
-  (defmacro save-column (&rest body)
-    "Keep trace of current point in line while moving"
-    `(let ((column (current-column)))
-       (unwind-protect
-           (progn ,@body)
-         (move-to-column column))))
-  (put 'save-column 'lisp-indent-function 0)
-
-  (defun move-line-up ()
-    "Move current line up"
-    (interactive)
-    (save-column
-     (transpose-lines 1)
-     (forward-line -2)))
-
-  (defun move-line-down ()
-    "Move current line down"
-    (interactive)
-    (save-column
-     (forward-line 1)
-     (transpose-lines 1)
-     (forward-line -1)))
-
-  (global-set-key (kbd "M-<up>") 'move-line-up)
-  (global-set-key (kbd "M-<down>") 'move-line-down)
-
-  ;; show key bindings help later
-  (setq dotspacemacs-which-key-delay 2)
-
-  ;; origami key bindings
-  (global-set-key (kbd "C-$") 'origami-recursively-toggle-node)
 
   ;; custom undo key
   (global-set-key (kbd "s-u") 'undo-tree-undo)
@@ -426,28 +384,6 @@ you should place your code here."
 
   ;; delete file sending them to trash
   (setq delete-by-moving-to-trash t)
-
-  ;; split windows always vertically
-  (setq split-height-threshold 70) ;; <- here nil keeps splitting
-  (setq split-width-threshold 0)
-
-  ;; wrap columns at 80 (if toggled by spacemacs/toggle-truncate-lines)
-  (setq-default fill-column 80)
-
-  ;; mingus startup (mpd controller)
-  (global-set-key (kbd "<f5>") 'mingus)
-
-  ;; nice Fn shortcuts
-  (global-set-key (kbd "<XF86AudioPlay>") 'mingus-toggle)
-  (global-set-key (kbd "<XF86AudioStop>") 'mingus-stop)
-  (global-set-key (kbd "<XF86AudioPrev>") 'mingus-prev)
-  (global-set-key (kbd "<XF86AudioNext>") 'mingus-next)
-
-  ;; alternative save command
-  (global-set-key (kbd "s-w") 'save-buffer)
-
-  ;; disable overwrite mode when pressing Ins button
-  (define-key global-map [(insert)] nil)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -461,7 +397,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+    (oauth2 org-caldav counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

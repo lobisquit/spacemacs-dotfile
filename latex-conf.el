@@ -1,4 +1,4 @@
-(defun latex-configurations ()
+(defun latex-configs ()
   ;; disable auto fill
   (remove-hook 'LaTeX-mode-hook 'latex/auto-fill-mode)
 
@@ -38,13 +38,13 @@
           (align (region-beginning) (region-end))))))
 
   (add-hook 'LaTeX-mode-hook
-            (lambda () (local-set-key (kbd "C-c f") 'LaTeX-align-environment)))
-
-  (add-hook 'LaTeX-mode-hook
             (lambda ()
               ;; tabs settings
               (setq indent-tabs-mode t)
               (setq tab-width (default-value 'tab-width))
+
+              ;; items are indented too
+              (setq LaTeX-item-indent 0)
 
               ;; alternative latex build & view command kbd
               (local-set-key (kbd "s-e")
@@ -53,11 +53,9 @@
                                (let ((TeX-save-query nil))
                                  (TeX-command-sequence t t))
                                ))
+
               ;; align tables shortcut
               (local-set-key (kbd "C-c f") 'LaTeX-align-environment)))
-
-  ;; items are indented too
-  (setq LaTeX-item-indent 0)
 
   ;; always ask for master file
   (setq TeX-master nil)
