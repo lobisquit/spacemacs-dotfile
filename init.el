@@ -381,6 +381,22 @@ you should place your code here."
 
   ;; delete file sending them to trash
   (setq delete-by-moving-to-trash t)
+
+  ;; get file names easily
+  (defun kill-file-name ()
+    "Get file name as last element in kill ring, i.e. copy file name to clipboard."
+    (interactive)
+    (let ((file-name (buffer-file-name)))
+      (if file-name
+          (progn
+            (message (concat "\"" file-name "\" copied to clipboard"))
+            (kill-new file-name))
+        (message "Current buffer is not related to any file"))
+      ))
+  (global-set-key [C-f1] 'kill-file-name)
+
+  ;; alternative save command
+  (global-set-key (kbd "s-w") 'save-buffer)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
