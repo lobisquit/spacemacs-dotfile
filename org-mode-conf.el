@@ -6,5 +6,11 @@
   (setq org-time-stamp-rounding-minutes '(0 15))
   (setq org-log-done t)
 
-  (setq org-agenda-files (list "~/Archivi/org/tasks.org"))
+  (defvar main-org-file)
+  (setq main-org-file "~/Archivi/org/tasks.org")
+  (setq org-agenda-files (list main-org-file))
+
+  ;; fast kbd to open main org file
+  (global-set-key (kbd "C-c o")
+                  (lambda () (interactive) (find-file main-org-file)))
   )
