@@ -384,6 +384,13 @@ you should place your code here."
 
   ;; alternative save command
   (global-set-key (kbd "s-w") 'save-buffer)
+
+  ;; disable overwrite mode when pressing Ins button
+  (define-key global-map [(insert)] nil)
+
+  ;; set chromium as default browser
+  (require 'browse-url)
+  (setq browse-url-browser-function 'browse-url-chromium)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
