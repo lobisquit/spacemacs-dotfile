@@ -382,19 +382,6 @@ you should place your code here."
   ;; delete file sending them to trash
   (setq delete-by-moving-to-trash t)
 
-  ;; get file names easily
-  (defun kill-file-name ()
-    "Get file name as last element in kill ring, i.e. copy file name to clipboard."
-    (interactive)
-    (let ((file-name (buffer-file-name)))
-      (if file-name
-          (progn
-            (message (concat "\"" file-name "\" copied to clipboard"))
-            (kill-new file-name))
-        (message "Current buffer is not related to any file"))
-      ))
-  (global-set-key [C-f1] 'kill-file-name)
-
   ;; alternative save command
   (global-set-key (kbd "s-w") 'save-buffer)
   )
@@ -410,7 +397,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (android-mode oauth2 org-caldav counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+    (heroku android-mode oauth2 org-caldav counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess wolfram-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements pdf-tools tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -12,6 +12,8 @@
 
   (global-set-key (kbd "C-w") 'kill-line-or-region)
   (global-set-key (kbd "M-w") 'copy-line-or-region)
+
+  (global-set-key [C-f1] 'kill-file-name)
   )
 
 (defun move-text-internal (arg)
@@ -91,3 +93,16 @@
   (if (region-active-p)
       (call-interactively 'kill-ring-save)
     (call-interactively 'copy-line)))
+
+;; get file names easily
+
+(defun kill-file-name ()
+  "Get file name as last element in kill ring, i.e. copy file name to clipboard."
+  (interactive)
+  (let ((file-name (buffer-file-name)))
+    (if file-name
+        (progn
+          (message (concat "\"" file-name "\" copied to clipboard"))
+          (kill-new file-name))
+      (message "Current buffer is not related to any file"))
+    ))
