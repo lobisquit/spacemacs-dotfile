@@ -3,9 +3,15 @@
   (global-set-key (kbd "C-a") 'back-to-indentation)
 
   ;; multiple cursors support
+
+  ;; move enabled / disabled commands file in custom place
+  ;; NOTE must be set *before require*
+  (setq mc/list-file "~/.spacemacs.d/mc-commands.el")
+
   (require 'multiple-cursors)
   (global-set-key (kbd "C-M-<mouse-1>") 'mc/add-cursor-on-click)
-  (global-set-key (kbd "s-m") 'mc/edit-lines)
+  (global-set-key (kbd "s-m") 'mc/mark-next-like-this)
+  (define-key mc/keymap (kbd "<return>") nil)
 
   (global-set-key (kbd "M-<up>") 'move-text-up)
   (global-set-key (kbd "M-<down>") 'move-text-down)
