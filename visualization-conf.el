@@ -5,9 +5,12 @@
   ;; origami key bindings
   (global-set-key (kbd "C-$") 'origami-recursively-toggle-node)
 
+  ;; undo for windows configurations
+  (winner-mode)
+
   ;; split windows always vertically
-  (setq split-height-threshold 70) ;; <- here nil keeps splitting
-  (setq split-width-threshold 0)
+  (setq split-height-threshold 50)
+  (setq split-width-threshold 70)
 
   ;; wrap columns at 80 (if toggled by spacemacs/toggle-truncate-lines)
   (setq-default fill-column 80)
