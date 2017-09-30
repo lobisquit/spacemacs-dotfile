@@ -20,6 +20,12 @@
   (global-set-key (kbd "M-w") 'copy-line-or-region)
 
   (global-set-key [C-f1] 'kill-file-name)
+
+  ;; treemacs toggle
+  (global-set-key (kbd "s-t") 'treemacs-toggle)
+
+  ;; switch to other window (faster than C-x o)
+  (global-set-key (kbd "s-o") 'other-window)
   )
 
 (defun move-text-internal (arg)

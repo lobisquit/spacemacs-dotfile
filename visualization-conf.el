@@ -32,9 +32,6 @@
   (setq whitespace-space-regexp "\\(^ +\\)")
   (global-whitespace-mode)
 
-  ;; shortcut for whitespace options
-  (global-set-key (kbd "s-o") 'whitespace-toggle-options)
-
   ;; no whitespace in line-numbering
   (add-hook 'linum-before-numbering-hook
             (lambda ()
