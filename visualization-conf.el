@@ -18,6 +18,12 @@
   ;; linum mode kbd
   (global-set-key (kbd "s-l") 'linum-mode)
 
+  ;; custom revert buffer kbds
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+  (global-set-key (kbd "C-<f5>") (lambda ()
+                                   "Revert buffer without confirmation."
+                                   (interactive) (revert-buffer t t)))
+
   ;; whitespace configurations
   (require 'whitespace)
   (setq whitespace-style '(face
