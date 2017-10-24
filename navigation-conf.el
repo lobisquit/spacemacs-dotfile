@@ -1,7 +1,8 @@
 (defun navigation-configs ()
   ;; move at actual beginning of the line (past indentation), not in the head
-  (global-unset-key (kbd "<home>"))
-  (global-set-key (kbd "<home>") 'smart-line-beginning)
+
+  ;; (global-unset-key (kbd "<home>"))
+  ;; (global-set-key (kbd "<home>") 'smart-line-beginning)
 
   ;; multiple cursors support
 

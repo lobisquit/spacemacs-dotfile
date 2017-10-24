@@ -208,4 +208,8 @@
   (global-set-key (kbd "C-e C-n") 'eshells-new)
   (global-set-key (kbd "C-e C-c") 'eshells-choose)
   (global-set-key (kbd "C-e C-h") 'eshells-new-here)
+
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (local-set-key (kbd "<home>") 'eshell-bol)))
   )
