@@ -1,6 +1,7 @@
 (defun navigation-configs ()
   ;; move at actual beginning of the line (past indentation), not in the head
-  (global-set-key (kbd "C-a") 'back-to-indentation)
+  (global-unset-key (kbd "<home>"))
+  (global-set-key (kbd "<home>") 'smart-line-beginning)
 
   ;; multiple cursors support
 
@@ -27,6 +28,14 @@
   ;; switch to other window (faster than C-x o)
   (global-set-key (kbd "s-o") 'other-window)
   )
+
+(defun smart-line-beginning ()
+  "Jump to indentation or beginning of line if already there."
+  (interactive)
+  (let ((current-point (point)))
+    (beginning-of-line-text)
+    (when (eq current-point (point))
+      (beginning-of-line))))
 
 (defun move-text-internal (arg)
   (cond
