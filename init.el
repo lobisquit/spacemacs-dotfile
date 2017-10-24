@@ -351,6 +351,7 @@ you should place your code here."
 
   (load "eshell-conf")
   (eshell-configs)
+  (eshells-configs)
 
   ;; workaround to rust racer bad performace
   (setq rust-match-angle-brackets nil)
