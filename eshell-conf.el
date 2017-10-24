@@ -38,15 +38,14 @@
   ;; Eshell prompt regexp and string. Unless you are varying the prompt by eg.
   ;; your login, these can be the same.
 
-  ;; Eshell prompt header
+  ;; Eshell prompt header (with defaule theme face)
   (setq esh-header (with-face "\n┌─ " '()))
-
-  (setq eshell-prompt-string (with-face "└─> " '()))
+  (setq eshell-prompt-string (with-face "└─→ " '()))
   (setq eshell-prompt-regexp eshell-prompt-string)
 
   (esh-section esh-dir
                "\xe2c7"  ;  (faicon folder)
-               (abbreviate-file-name (eshell/pwd))
+               (concat (abbreviate-file-name (eshell/pwd)) "/")
                '(:foreground "#ff9900"))
 
   (esh-section esh-git
@@ -54,18 +53,27 @@
                (magit-get-current-branch)
                '(:foreground "#ff3300"))
 
+  ;; use this packet for python virtualenv detection
+  (require 'virtualenvwrapper)
+  (venv-initialize-eshell)
+
+  ;; redefine workon function, to use current directory as default location
+  (defun eshell/workon ()
+    (let ((venv-location (eshell/pwd)))
+      (venv-workon)))
+
   (esh-section esh-python
                "\xe928"  ;  (python icon)
-               ;; dummy command
-               (abbreviate-file-name "prova"))
+               venv-current-name
+               '(:foreground "#2eae85"))
 
   (esh-section esh-clock
                "\xf046"  ;  (clock icon)
                (format-time-string "%H:%M" (current-time))
-               '(:foreground "green"))
+               '(:foreground "#41a5ff"))
 
   ;; Choose which eshell-funcs to enable
-  (setq eshell-funcs (list esh-dir esh-git))
+  (setq eshell-funcs (list esh-dir esh-git esh-python esh-clock))
 
   ;; Enable the new eshell prompt
   (setq eshell-prompt-function 'esh-prompt-func)
