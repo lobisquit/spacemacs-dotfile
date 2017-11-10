@@ -2,6 +2,16 @@
   (require 'dash)
   (require 's)
 
+  ;; trying to given commands in /bin in remote debian machine
+  (require 'tramp)
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+  ;; eshell needs manual settings, it seems
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (setq eshell-path-env (concat "/bin:" eshell-path-env))
+              (setenv "PATH" (concat "/bin:" (getenv "PATH")))))
+
   (defmacro with-face (STR &rest PROPS)
     "Return STR propertized with PROPS."
     `(propertize ,STR 'face (list ,@PROPS)))
