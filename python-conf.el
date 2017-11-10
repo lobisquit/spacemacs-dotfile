@@ -3,8 +3,9 @@
   (add-hook 'python-mode-hook
             (lambda ()
               (setq python-indent-offset 4)
-              (setq indent-tabs-mode t)
-              (setq tab-width (default-value 'tab-width))))
+              ;; (setq indent-tabs-mode t)
+              ;; (setq tab-width (default-value 'tab-width))
+              ))
 
   ;; isort on save of python file
   (require 'py-isort)
