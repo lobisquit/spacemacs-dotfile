@@ -81,7 +81,10 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(neotree ess-R-object-popup wolfram wolfram-mode)
+   dotspacemacs-excluded-packages '(neotree
+                                    ess-R-object-popup
+                                    wolfram
+                                    wolfram-mode)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -398,6 +401,9 @@ you should place your code here."
   ;; golden ratio mode: autosize windows to make current bigger
   (require 'golden-ratio)
   (golden-ratio-mode 1)
+
+  ;; disable for ivy occur windows
+  (add-to-list 'golden-ratio-exclude-buffer-regexp " *ivy-occur swiper \\.*")
 
   ;; enable yasnippets
   (require 'yasnippet)
