@@ -158,11 +158,8 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 16
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
+   dotspacemacs-default-font '("Fira Code"
+                               :size 17)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -364,6 +361,9 @@ you should place your code here."
   (load "matlab-conf")
   (matlab-configs)
 
+  (load "fira-code-conf")
+  (fira-code-configs)
+
   ;; workaround to rust racer bad performace
   (setq rust-match-angle-brackets nil)
 
@@ -384,7 +384,7 @@ you should place your code here."
   ;; tabs are *not* the default option
   (setq-default indent-tabs-mode nil)
 
-  (global-pretty-mode t)
+  (global-prettify-symbols-mode 1)
 
   (add-hook 'c++-mode-hook
             (lambda ()
@@ -425,10 +425,6 @@ you should place your code here."
   ;; disable overwrite mode when pressing Ins button
   (define-key global-map [(insert)] nil)
 
-  ;; set chromium as default browser
-  (require 'browse-url)
-  (setq browse-url-browser-function 'browse-url-chromium)
-
   ;; kaolin themes loading
   (require 'kaolin-themes)
   )
@@ -441,13 +437,14 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ConTeXt-Mark-version "IV")
+ '(csv-align-style (quote right))
  '(custom-safe-themes
    (quote
     ("7be789f201ea16242dab84dd5f225a55370dbecae248d4251edbd286fe879cfa" "94dac4d15d12ba671f77a93d84ad9f799808714d4c5d247d5fd944df951b91d6" "4d8fab23f15347bce54eb7137789ab93007010fa47296c2f36757ff84b5b3c8a" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (pfuture pdf-tools json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern wolfram autothemer palette ess-smart-equals ess-R-data-view ctable kaolin-themes kaolin-theme exwm-x exwm multi-eshell virtualenvwrapper all-the-icons memoize font-lock+ pretty-mode selectric-mode treemacs web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data org-projectile org-category-capture platformio-mode heroku android-mode oauth2 org-caldav counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy)))
+    (pdf-tools pfuture json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern wolfram autothemer palette ess-smart-equals ess-R-data-view ctable kaolin-themes kaolin-theme exwm-x exwm multi-eshell virtualenvwrapper all-the-icons memoize font-lock+ pretty-mode selectric-mode treemacs web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data org-projectile org-category-capture platformio-mode heroku android-mode oauth2 org-caldav counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy)))
  '(safe-local-variable-values
    (quote
     ((outline-minor-mode)
