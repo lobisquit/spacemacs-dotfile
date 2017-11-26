@@ -64,5 +64,6 @@
         pdf-view-mouse-set-region
         previous-buffer
         python-shell-send-buffer
+        query-replace
         spacemacs/toggle-maximize-buffer
         ))

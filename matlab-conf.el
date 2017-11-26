@@ -20,5 +20,3 @@
               ;; enable basic autocompletion
               (company-mode t)
               )))
-
-(unless nil (message "ciao"))
