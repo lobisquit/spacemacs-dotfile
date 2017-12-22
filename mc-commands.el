@@ -16,6 +16,7 @@
         c-electric-pound
         c-electric-semi&comma
         c-electric-slash
+        c-electric-star
         copy-line-or-region
         dired-copy-filename-as-kill
         dired-next-line
@@ -43,8 +44,11 @@
         TeX-command-master
         TeX-command-run-all
         TeX-view
+        beginning-of-buffer
         cargo-process-run
         clean-aindent--bsunindent
+        comint-previous-input
+        comint-send-input
         counsel-M-x
         counsel-find-file
         csv-align-fields
@@ -60,10 +64,13 @@
         mark-whole-buffer
         mouse-delete-window
         mouse-set-region
+        orgtbl-hijacker-command-109
+        orgtbl-self-insert-command
         pdf-util-image-map-mouse-event-proxy
         pdf-view-mouse-set-region
         previous-buffer
         python-shell-send-buffer
+        python-shell-send-buffer-switch
         query-replace
         spacemacs/toggle-maximize-buffer
         ))

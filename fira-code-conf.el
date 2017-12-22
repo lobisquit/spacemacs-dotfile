@@ -131,4 +131,4 @@
 
   (add-hook 'prog-mode-hook
             #'add-fira-code-symbol-keywords)
-)
+  )
