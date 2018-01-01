@@ -40,7 +40,7 @@
   (add-hook 'LaTeX-mode-hook
             (lambda ()
               ;; tabs settings
-              (setq indent-tabs-mode t)
+              ;; (setq indent-tabs-mode t)
               (setq tab-width (default-value 'tab-width))
 
               ;; items are indented too
