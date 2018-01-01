@@ -39,7 +39,15 @@
   ;; make the menu key as leader key of movement section
   (global-set-key (kbd "<menu>") 'movement)
 
+  ;; custom delete word, instead of killing
+  (global-set-key (kbd "<C-backspace>") 'delete-word)
   )
+
+(defun delete-word (arg)
+  "Delete characters backward until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (backward-word arg) (point))))
 
 (defun smart-line-beginning ()
   "Jump to indentation or beginning of line if already there."

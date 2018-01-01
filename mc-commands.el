@@ -18,6 +18,7 @@
         c-electric-slash
         c-electric-star
         copy-line-or-region
+        delete-word
         dired-copy-filename-as-kill
         dired-next-line
         dired-previous-line
@@ -52,6 +53,7 @@
         counsel-M-x
         counsel-find-file
         csv-align-fields
+        dired-find-file
         dired-unmark-backward
         ess-eval-buffer
         ess-eval-buffer-and-go
