@@ -28,6 +28,17 @@
 
   ;; switch to other window (faster than C-x o)
   (global-set-key (kbd "s-o") 'other-window)
+
+  ;; custom bindings for <menu> key
+  (define-prefix-command 'movement)
+  (define-key movement (kbd "<up>") 'beginning-of-buffer)
+  (define-key movement (kbd "<down>") 'end-of-buffer)
+  (define-key movement (kbd "<right>") 'move-end-of-line)
+  (define-key movement (kbd "<left>") 'move-beginning-of-line)
+
+  ;; make the menu key as leader key of movement section
+  (global-set-key (kbd "<menu>") 'movement)
+
   )
 
 (defun smart-line-beginning ()
