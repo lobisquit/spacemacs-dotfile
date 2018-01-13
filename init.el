@@ -390,16 +390,11 @@ you should place your code here."
 
   (global-prettify-symbols-mode 1)
 
-  (add-hook 'c++-mode-hook
-            (lambda ()
-              ;; (setq python-indent-offset 2)
-              (setq indent-tabs-mode t)
-              (setq tab-width (default-value 'tab-width))))
   (add-hook 'ConTeXt-mode-hook
             (lambda ()
               (setq ConTeXt-indent-item 0)
-              (setq indent-tabs-mode t)
-              (setq tab-width (default-value 'tab-width))
+              ;; (setq indent-tabs-mode t)
+              ;; (setq tab-width (default-value 'tab-width))
               ))
 
   ;; golden ratio mode: autosize windows to make current bigger

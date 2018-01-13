@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        LaTeX-babel-insert-hyphen
         LaTeX-insert-left-brace
         TeX-insert-backslash
         TeX-insert-dollar
@@ -50,6 +51,7 @@
         clean-aindent--bsunindent
         comint-previous-input
         comint-send-input
+        compile
         counsel-M-x
         counsel-find-file
         csv-align-fields
@@ -75,4 +77,5 @@
         python-shell-send-buffer-switch
         query-replace
         spacemacs/toggle-maximize-buffer
+        winner-undo
         ))
