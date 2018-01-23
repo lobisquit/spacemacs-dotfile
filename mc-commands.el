@@ -18,6 +18,7 @@
         c-electric-semi&comma
         c-electric-slash
         c-electric-star
+        comment-line
         copy-line-or-region
         delete-word
         dired-copy-filename-as-kill
@@ -38,6 +39,7 @@
         move-text-down
         move-text-up
         org-self-insert-command
+        pollen-insert-tab-or-command-char
         sp-remove-active-pair-overlay
         ))
 

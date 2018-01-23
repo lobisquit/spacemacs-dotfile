@@ -385,17 +385,23 @@ you should place your code here."
    make-backup-files t
    version-control 'numbered)
 
+  (global-prettify-symbols-mode 1)
+
   ;; tabs are *not* the default option
   (setq-default indent-tabs-mode nil)
 
-  (global-prettify-symbols-mode 1)
+  (defun tab-style ()
+    (setq tab-width 4)
+    (setq c-basic-offset tab-width)
+    (setq indent-tabs-mode t))
+
+  (add-hook 'c++-mode-hook #'tab-style)
+  (add-hook 'tcl-mode-hook #'tab-style)
+  (add-hook 'c-mode-hook #'tab-style)
 
   (add-hook 'ConTeXt-mode-hook
             (lambda ()
-              (setq ConTeXt-indent-item 0)
-              ;; (setq indent-tabs-mode t)
-              ;; (setq tab-width (default-value 'tab-width))
-              ))
+              (setq ConTeXt-indent-item 0)))
 
   ;; golden ratio mode: autosize windows to make current bigger
   (require 'golden-ratio)
@@ -433,9 +439,7 @@ you should place your code here."
   (require 'company-pollen)
 
   (add-hook 'pollen-mode-hook
-            (lambda ()
-              (company-mode)
-              ))
+            (lambda () (company-mode)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -453,11 +457,12 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (company-pollen pollen-mode neotree geiser racket-mode faceup alert realgud pdf-tools pfuture json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern wolfram autothemer palette ess-smart-equals ess-R-data-view ctable kaolin-themes kaolin-theme exwm-x exwm multi-eshell virtualenvwrapper all-the-icons memoize font-lock+ pretty-mode selectric-mode treemacs web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data org-projectile org-category-capture platformio-mode heroku android-mode oauth2 org-caldav counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy)))
+    (pos-tip ghub company-pollen pollen-mode neotree geiser racket-mode faceup alert realgud pdf-tools pfuture json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc company-tern dash-functional tern wolfram autothemer palette ess-smart-equals ess-R-data-view ctable kaolin-themes kaolin-theme exwm-x exwm multi-eshell virtualenvwrapper all-the-icons memoize font-lock+ pretty-mode selectric-mode treemacs web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data org-projectile org-category-capture platformio-mode heroku android-mode oauth2 org-caldav counsel-dash simple-mpc mingus bongo dionysos emms lua-mode minimap web-beautify livid-mode skewer-mode simple-httpd coffee-mode ranger dired-ranger xbm-life ess thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode sql-indent disaster company-c-headers cmake-mode clang-format csv-mode origami yapfify yaml-mode vmd-mode toml-mode smeargle smart-tabs-mode racer pyvenv pytest pyenv-mode py-isort pip-requirements tablist orgit nginx-mode multiple-cursors mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit with-editor cython-mode company-statistics company-auctex company-anaconda company cargo rust-mode auto-yasnippet yasnippet auctex anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash async aggressive-indent adaptive-wrap ace-window ace-link avy)))
  '(safe-local-variable-values
    (quote
     ((outline-minor-mode)
-     (whitespace-style face tabs spaces trailing lines space-before-tab::space newline indentation::space empty space-after-tab::space space-mark tab-mark newline-mark)))))
+     (whitespace-style face tabs spaces trailing lines space-before-tab::space newline indentation::space empty space-after-tab::space space-mark tab-mark newline-mark))))
+ '(tramp-syntax (quote default) nil (tramp)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
