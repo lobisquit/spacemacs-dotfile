@@ -14,10 +14,12 @@
         beginning-of-visual-line
         c-electric-colon
         c-electric-lt-gt
+        c-electric-paren
         c-electric-pound
         c-electric-semi&comma
         c-electric-slash
         c-electric-star
+        c-indent-line-or-region
         comment-line
         copy-line-or-region
         delete-word
@@ -41,6 +43,7 @@
         org-self-insert-command
         pollen-insert-tab-or-command-char
         sp-remove-active-pair-overlay
+        spacemacs/emmet-expand
         ))
 
 (setq mc/cmds-to-run-once
