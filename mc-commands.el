@@ -62,6 +62,7 @@
         csv-align-fields
         dired-find-file
         dired-unmark-backward
+        eshell-send-input
         ess-eval-buffer
         ess-eval-buffer-and-go
         ess-newline-and-indent
@@ -73,11 +74,13 @@
         mark-whole-buffer
         mouse-delete-window
         mouse-set-region
+        next-buffer
         orgtbl-hijacker-command-109
         orgtbl-self-insert-command
         pdf-util-image-map-mouse-event-proxy
         pdf-view-mouse-set-region
         previous-buffer
+        projectile-find-other-file
         python-shell-send-buffer
         python-shell-send-buffer-switch
         query-replace
