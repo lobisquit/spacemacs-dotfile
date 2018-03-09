@@ -41,6 +41,7 @@
 
   ;; custom delete word, instead of killing
   (global-set-key (kbd "<C-backspace>") 'delete-word)
+  (global-set-key (kbd "<C-delete>") 'delete-word)
   )
 
 (defun delete-word (arg)
