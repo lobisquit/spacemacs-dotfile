@@ -52,6 +52,7 @@
         TeX-command-run-all
         TeX-view
         beginning-of-buffer
+        cargo-process-build
         cargo-process-run
         clean-aindent--bsunindent
         comint-previous-input
