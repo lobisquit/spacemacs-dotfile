@@ -53,8 +53,12 @@
   (setq eshell-prompt-string (with-face "└─→ " '()))
   (setq eshell-prompt-regexp eshell-prompt-string)
 
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (set-fontset-font t '(#Xf07c . #Xf07c) "fontawesome")))
+
   (esh-section esh-dir
-               "\xe2c7"  ;  (faicon folder)
+               "\xf07c"  ;  (faicon folder)
                (concat (abbreviate-file-name (eshell/pwd)) "/")
                '(:foreground "#ff9900"))
 
