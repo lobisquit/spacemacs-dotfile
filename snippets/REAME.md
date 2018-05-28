@@ -1,1 +1,0 @@
-Put here personal YASnippets.
