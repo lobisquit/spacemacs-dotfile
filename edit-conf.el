@@ -1,7 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 
 ;; custom toggle comment
-(global-set-key (kbd "s-c") 'comment-line)
+(global-set-key (kbd "M-\\") 'comment-line)
 
 ;; custom delete word, instead of killing
 (global-set-key (kbd "<C-backspace>") 'delete-word)
