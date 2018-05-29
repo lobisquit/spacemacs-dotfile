@@ -3,9 +3,6 @@
 ;; custom toggle comment
 (global-set-key (kbd "s-c") 'comment-line)
 
-;; disable overwrite mode when pressing Ins button
-(define-key global-map [(insert)] nil)
-
 ;; custom delete word, instead of killing
 (global-set-key (kbd "<C-backspace>") 'delete-word)
 (global-set-key (kbd "<C-delete>")    'delete-word)
