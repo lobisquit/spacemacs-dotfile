@@ -43,3 +43,8 @@ flycheck_*.el
 
 # directory configuration
 .dir-locals.el
+
+# org-babel generated files
+*.el
+*.elc
+!init.el

@@ -1,0 +1,28 @@
+#+PROPERTY: header-args :session *my_session*
+#+PROPERTY: header-args+ :results silent
+#+PROPERTY: header-args+ :tangle yes
+
+If another Dired buffer is open in current frame its path is the default one to copy selected file.
+#+BEGIN_SRC emacs-lisp
+  (setq dired-dwim-target t)
+#+END_SRC
+
+Set Dired level of details when displaying files.
+#+BEGIN_SRC emacs-lisp
+  (setq dired-listing-switches "-al")
+#+END_SRC
+
+Add handy keybind to WDired.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (local-set-key
+               (kbd "W")
+               'wdired-change-to-wdired-mode)))
+#+END_SRC
+
+Enable ~all-the-icons~ in Dired as file icons.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook
+            'all-the-icons-dired-mode)
+#+END_SRC

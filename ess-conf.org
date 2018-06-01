@@ -1,0 +1,20 @@
+#+PROPERTY: header-args :session *my_session*
+#+PROPERTY: header-args+ :results silent
+#+PROPERTY: header-args+ :tangle yes
+
+* ESS (R language) settings
+Disable nasty keybinding of underscore as assign.
+
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'ess))
+
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              ;; remove underscore as assign symbol, put unused semicolon
+              (setq ess-smart-S-assign-key ";")
+
+              (ess-toggle-underscore nil)
+              (ess-toggle-S-assign nil)
+              (ess-toggle-S-assign nil)))
+#+END_SRC

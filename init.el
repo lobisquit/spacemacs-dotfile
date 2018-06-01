@@ -322,60 +322,44 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (require 'all-the-icons)
   (require 'dired)
+  (require 'org)
 
-  ;; powerline settings
-  (setq powerline-default-separator 'arrow)
+  ;; compile org babel files on save (not on startup)
+  (add-hook 'org-babel-post-tangle-hook
+            ;; buffer-file-name contains the generated file
+            (lambda () (byte-compile-file (buffer-file-name))))
 
-  ;; keep backup copies of files, but in .emacs directory
-  (setq-default
-   backup-by-copying t
-   backup-directory-alist '(("." . "~/.emacs.d/saves"))
-   delete-old-versions t
-   make-backup-files t
-   version-control 'numbered)
+  ;; tangle current org file on save
+  (add-hook 'after-save-hook
+            (lambda ()
+              (interactive)
+              (when (eq major-mode 'org-mode)
+                (org-babel-tangle (buffer-file-name)))))
 
-  ;; delete file sending them to trash
-  (setq delete-by-moving-to-trash t)
+  (defun compile-and-load (name &optional path)
+    ;; set default configuration path
+    (unless path (setq path "~/.spacemacs.d/"))
 
-  ;; enable auto-completion globally
-  (global-company-mode)
+    ;; compile corresponding org file if no binary is available
+    ;; suppress warning: better fix them when editing the file
+    (unless (file-exists-p (concat path name ".elc"))
+      (progn
+        (org-babel-tangle-file (concat path name ".org"))
+        (let ((warning-minimum-level :emergency))
+          (byte-compile-file (concat path name ".el")))))
 
-  ;; disable overwrite mode when pressing Ins button
-  (define-key global-map [(insert)] nil)
+    (message (concat path name ".elc"))
+    (load (concat path name ".elc")))
 
-  ;; -*- utils -*-
-
-  ;; custom revert buffer kbds
-  (global-set-key (kbd "<f5>") 'revert-buffer)
-  (global-set-key (kbd "C-<f5>") (lambda ()
-                                   "Revert buffer without confirmation."
-                                   (interactive) (revert-buffer t t)))
-
-  ;; get file names easily
-  (global-set-key [C-f1] 'kill-file-name)
-
-  (defun kill-file-name ()
-    "Get file name as last element in kill ring, i.e. copy file name to clipboard."
-    (interactive)
-    (let ((file-name (buffer-file-name)))
-      (if file-name
-          (progn
-            (message (concat "\"" file-name "\" copied to clipboard"))
-            (kill-new file-name))
-        (message "Current buffer is not related to any file"))))
-
-  ;; load configurations, moved to specific files
-  (add-to-list 'load-path "~/.spacemacs.d/")
-
-  (load "dired-conf")
-  (load "edit-conf")
-  (load "ess-conf")
-  (load "fira-code-conf")
-  (load "latex-conf")
-  (load "movement-conf")
-  (load "python-conf")
-  (load "rust-conf")
-  (load "visual-conf"))
+  (compile-and-load "dired-conf")
+  (compile-and-load "edit-conf")
+  (compile-and-load "ess-conf")
+  (compile-and-load "general-conf")
+  (compile-and-load "latex-conf")
+  (compile-and-load "movement-conf")
+  (compile-and-load "python-conf")
+  (compile-and-load "rust-conf")
+  (compile-and-load "visual-conf"))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -387,10 +371,11 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (all-the-icons-dired all-the-icons memoize mmm-mode markdown-toc markdown-mode gh-md helm-company helm-c-yasnippet fuzzy ess-smart-equals ess-R-data-view ctable ess julia-mode company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete tablist pdf-tools smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub with-editor zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (all-the-icons-dired all-the-icons memoize mmm-mode markdown-toc markdown-mode gh-md helm-company helm-c-yasnippet fuzzy ess-smart-equals ess-R-data-view ctable ess julia-mode company-statistics company-anaconda company auto-yasnippet yasnippet ac-ispell auto-complete tablist pdf-tools smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub with-editor zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+ '(safe-local-variable-values (quote ((TeX-master . t)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "#f8f8f8" :background "#26292c")))))
+ '(default ((t (:foreground "#f8f8f8" :background "#26292c" :family "Fira Code" :foundry "CTDB" :slant normal :weight normal :height 120 :width normal)))))

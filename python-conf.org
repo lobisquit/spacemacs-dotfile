@@ -1,0 +1,20 @@
+#+PROPERTY: header-args :session *my_session*
+#+PROPERTY: header-args+ :results silent
+#+PROPERTY: header-args+ :tangle yes
+
+Indentation settings for Python
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'python))
+
+  (add-hook 'python-mode-hook
+              (lambda ()
+                ;; (setq indent-tabs-mode t)
+                (setq python-indent-offset 4)))
+#+END_SRC
+
+Run ~isort~ (import sorter) before file is saved.
+#+BEGIN_SRC emacs-lisp
+  (require 'py-isort)
+  (add-hook 'before-save-hook 'py-isort-before-save)
+#+END_SRC

@@ -1,0 +1,56 @@
+#+PROPERTY: header-args :session *my_session*
+#+PROPERTY: header-args+ :results silent
+#+PROPERTY: header-args+ :tangle yes
+
+Disable nasty auto fill feature.
+#+BEGIN_SRC emacs-lisp
+  (remove-hook 'LaTeX-mode-hook 'latex/auto-fill-mode)
+#+END_SRC
+
+Latex normal text (no big titles, neither formulas trick)
+#+BEGIN_SRC emacs-lisp
+  (setq font-latex-fontify-sectioning 'color)
+  (setq font-latex-fontify-script nil)
+#+END_SRC
+
+Make printer mode the default one when opening a pdf
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'pdf-view-mode-hook 'pdf-view-printer-minor-mode)
+#+END_SRC
+
+Use ~pdf-tools~ to open PDF files instead of ~doc-view~ or external program.
+#+BEGIN_SRC emacs-lisp
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+        TeX-source-correlate-start-server t)
+#+END_SRC
+
+Update PDF view after LaTeX build.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+  (add-hook 'TeX-after-TeX-LaTeX-command-finished-hook
+            #'TeX-revert-document-buffer)
+#+END_SRC
+
+Always query the user for master file of current ~tex~ document.
+#+BEGIN_SRC emacs-lisp
+  (setq TeX-master nil)
+#+END_SRC
+
+Custom indentation settings, plus custom build + view command.
+#+BEGIN_SRC emacs-lisp
+    (add-hook 'LaTeX-mode-hook
+              (lambda ()
+                ;; tabs settings
+                (setq tab-width (default-value 'tab-width))
+
+                ;; items are indented too
+                (setq LaTeX-item-indent 0)
+
+                ;; alternative latex build & view command kbd
+                (local-set-key
+                 (kbd "s-e")
+                 (lambda ()
+                   (interactive)
+                   (let ((TeX-save-query nil))
+                     (TeX-command-sequence t t))))))
+#+END_SRC

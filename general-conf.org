@@ -1,0 +1,46 @@
+#+PROPERTY: header-args :session *my_session*
+#+PROPERTY: header-args+ :results silent
+#+PROPERTY: header-args+ :tangle yes
+
+* General settings
+
+This configurations change some basic Emacs
+
+Keep backup copies of files, but in .emacs directory.
+This avoid dumping every folder emacs works in.
+#+BEGIN_SRC emacs-lisp
+  (setq-default
+    backup-by-copying t
+    backup-directory-alist '(("." . "~/.emacs.d/saves"))
+    delete-old-versions t
+    make-backup-files t
+    version-control 'numbered)
+#+END_SRC
+
+Send file to trash instead of ~rm~ them.
+This allows restoring file accidentaly trashed.
+#+BEGIN_SRC emacs-lisp
+  (setq delete-by-moving-to-trash t)
+#+END_SRC
+
+Enable auto-completion globally through company.
+#+BEGIN_SRC emacs-lisp
+  (global-company-mode)
+#+END_SRC
+
+Disable nasty overwrite mode when pressing ~Ins~ button.
+#+BEGIN_SRC emacs-lisp
+  (define-key global-map [(insert)] nil)
+#+END_SRC
+
+Custom ~revert-buffer~ keybindings (with or without confirmation).
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+  (global-set-key (kbd "C-<f5>") (lambda ()
+                                   (interactive) (revert-buffer t t)))
+#+END_SRC
+
+Indent code in ~org-babel~ with TAB.
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-tab-acts-natively t)
+#+END_SRC
