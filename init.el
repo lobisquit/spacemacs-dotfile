@@ -341,14 +341,14 @@ you should place your code here."
     (unless path (setq path "~/.spacemacs.d/"))
 
     ;; compile corresponding org file if no binary is available
-    ;; suppress warning: better fix them when editing the file
     (unless (file-exists-p (concat path name ".elc"))
       (progn
         (org-babel-tangle-file (concat path name ".org"))
+
+        ;; suppress compile warning: better deal with them when saving the file
         (let ((warning-minimum-level :emergency))
           (byte-compile-file (concat path name ".el")))))
 
-    (message (concat path name ".elc"))
     (load (concat path name ".elc")))
 
   (compile-and-load "dired-conf")
