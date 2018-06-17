@@ -10,5 +10,5 @@ This tweak is a workaround to rust ~racer~ bad performace.
 #+END_SRC
 
 # Local Variables:
-# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
 # End:

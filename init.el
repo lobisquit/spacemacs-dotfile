@@ -336,11 +336,11 @@ you should place your code here."
     (interactive)
     (org-babel-tangle (buffer-file-name)))
 
-  (defun tangle-and-byte-compile-this-file ()
+  (defun org-babel-tangle-and-byte-compile-this-file ()
     (org-babel-tangle-this-file)
 
     (byte-compile-file (concat
-                        (file-name-sans-extension (buffer-file-name) ".el"))))
+                        (file-name-sans-extension (buffer-file-name)) ".el")))
 
   (defun compile-and-load (name &optional path)
     ;; set default configuration path
@@ -383,7 +383,7 @@ you should place your code here."
    (quote
     ((eval add-hook
            (quote after-save-hook)
-           (quote tangle-and-byte-compile-this-file)
+           (quote org-babel-tangle-and-byte-compile-this-file)
            t t)
      (TeX-master . t)))))
 (custom-set-faces

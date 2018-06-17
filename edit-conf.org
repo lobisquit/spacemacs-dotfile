@@ -103,5 +103,5 @@ These settings involve how text is changed in Emacs.
  #+END_SRC
 
 # Local Variables:
-# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
 # End:
