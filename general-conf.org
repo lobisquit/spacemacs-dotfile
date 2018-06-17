@@ -44,3 +44,13 @@ Indent code in ~org-babel~ with TAB.
 #+BEGIN_SRC emacs-lisp
   (setq org-src-tab-acts-natively t)
 #+END_SRC
+
+Enable line numbers on all programming buffers.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+#+END_SRC
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# End:

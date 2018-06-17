@@ -26,3 +26,7 @@ Enable ~all-the-icons~ in Dired as file icons.
   (add-hook 'dired-mode-hook
             'all-the-icons-dired-mode)
 #+END_SRC
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# End:

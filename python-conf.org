@@ -18,3 +18,7 @@ Run ~isort~ (import sorter) before file is saved.
   (require 'py-isort)
   (add-hook 'before-save-hook 'py-isort-before-save)
 #+END_SRC
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# End:

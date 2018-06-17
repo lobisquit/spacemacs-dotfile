@@ -194,3 +194,7 @@ These settings involve the visual appearance of items and text in Emacs.
                                     nil
                                     fira-code-font-lock-keywords-alist)))
  #+END_SRC
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# End:

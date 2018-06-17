@@ -18,3 +18,14 @@ Disable nasty keybinding of underscore as assign.
               (ess-toggle-S-assign nil)
               (ess-toggle-S-assign nil)))
 #+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-.") (lambda () (interactive) (insert " <- ")))))
+#+END_SRC
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# End:

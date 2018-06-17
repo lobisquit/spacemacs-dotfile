@@ -54,3 +54,7 @@ Custom indentation settings, plus custom build + view command.
                    (let ((TeX-save-query nil))
                      (TeX-command-sequence t t))))))
 #+END_SRC
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# End:

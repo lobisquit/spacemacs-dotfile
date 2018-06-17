@@ -101,3 +101,7 @@ These settings involve how text is changed in Emacs.
             (kill-new file-name))
             (message "Current buffer is not related to any file"))))
  #+END_SRC
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'tangle-and-byte-compile-this-file t t)
+# End:
