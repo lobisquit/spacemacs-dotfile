@@ -14,9 +14,7 @@ Disable nasty keybinding of underscore as assign.
               ;; remove underscore as assign symbol, put unused semicolon
               (setq ess-smart-S-assign-key ";")
 
-              (ess-toggle-underscore nil)
-              (ess-toggle-S-assign nil)
-              (ess-toggle-S-assign nil)))
+              (ess-disable-smart-S-assign)))
 #+END_SRC
 
 
