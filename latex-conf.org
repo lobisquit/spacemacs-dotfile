@@ -38,21 +38,31 @@ Always query the user for master file of current ~tex~ document.
 
 Custom indentation settings, plus custom build + view command.
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'LaTeX-mode-hook
-              (lambda ()
-                ;; tabs settings
-                (setq tab-width (default-value 'tab-width))
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              ;; tabs settings
+              (setq tab-width (default-value 'tab-width))
 
-                ;; items are indented too
-                (setq LaTeX-item-indent 0)
+              ;; items are indented too
+              (setq LaTeX-item-indent 0)
 
-                ;; alternative latex build & view command kbd
-                (local-set-key
-                 (kbd "s-e")
-                 (lambda ()
-                   (interactive)
-                   (let ((TeX-save-query nil))
-                     (TeX-command-sequence t t))))))
+              ;; alternative latex build & view command kbd
+              (local-set-key
+               (kbd "s-e")
+               (lambda ()
+                 (interactive)
+                 (let ((TeX-save-query nil))
+                   (TeX-command-sequence t t))))))
+#+END_SRC
+
+This snippet automatically compiles ~bib~ files, not sure why.
+See [[https://emacs.stackexchange.com/questions/13426/auctex-doesnt-run-bibtex][here]].
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              (setq TeX-parse-self t) ; Enable parse on load.
+              (setq TeX-auto-save t))) ; Enable parse on save.
 #+END_SRC
 
 # Local Variables:
