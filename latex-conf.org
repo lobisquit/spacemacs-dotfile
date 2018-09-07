@@ -13,11 +13,6 @@ Latex normal text (no big titles, neither formulas trick)
   (setq font-latex-fontify-script nil)
 #+END_SRC
 
-Make printer mode the default one when opening a pdf
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'pdf-view-mode-hook 'pdf-view-printer-minor-mode)
-#+END_SRC
-
 Use ~pdf-tools~ to open PDF files instead of ~doc-view~ or external program.
 #+BEGIN_SRC emacs-lisp
   (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
