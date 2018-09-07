@@ -370,6 +370,7 @@ you should place your code here."
   (compile-and-load "general-conf")
   (compile-and-load "latex-conf")
   (compile-and-load "movement-conf")
+  (compile-and-load "org-ref")
   (compile-and-load "python-conf")
   (compile-and-load "rust-conf")
   (compile-and-load "visual-conf")

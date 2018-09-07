@@ -1,0 +1,47 @@
+#+PROPERTY: header-args :session *my_session*
+#+PROPERTY: header-args+ :results silent
+#+PROPERTY: header-args+ :tangle yes
+
+All global files are relative to ~BIBINPUTS~ path, in order to be consistent with LaTeX.
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'bibtex))
+
+  (setq reftex-default-bibliography (list (concat (getenv "BIBINPUTS") "/biblio.bib")))
+
+  ;; see org-ref for use of these variables
+  (setq org-ref-bibliography-notes (concat (getenv "BIBINPUTS") "/notes.org")
+        org-ref-default-bibliography (list (concat (getenv "BIBINPUTS") "/biblio.bib"))
+        org-ref-pdf-directory (concat (getenv "BIBINPUTS") "/Paper/"))
+#+END_SRC
+
+Custom reference key generation.
+#+BEGIN_SRC emacs-lisp
+  (setq bibtex-autokey-year-length 4
+        bibtex-autokey-name-year-separator ""
+        bibtex-autokey-year-title-separator ""
+        bibtex-autokey-titleword-separator "-"
+        bibtex-autokey-titlewords 0
+        bibtex-autokey-titlewords-stretch 1
+        bibtex-autokey-titleword-length 0
+        bibtex-autokey-name-case-convert-function 'capitalize)
+#+END_SRC
+
+Bibtex step was required to have LaTeX see the global ~bib~ file.
+Bibliography file must be put into ~BIBINPUTS~ folder and path must not have special characters (thanks LaTeX).
+#+BEGIN_SRC emacs-lisp
+  (setq org-latex-pdf-process
+        '("%latex -interaction nonstopmode -output-directory %o %f"
+          "bibtex %b"
+          "%latex -interaction nonstopmode -output-directory %o %f"
+          "%latex -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+
+Put caption below all floats (images, tables, ...).
+#+BEGIN_SRC emacs-lisp
+  (setq org-latex-caption-above nil)
+#+END_SRC
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
+# End:
