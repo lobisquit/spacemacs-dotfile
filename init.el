@@ -364,17 +364,7 @@ you should place your code here."
 
     (load (concat path name ".elc")))
 
-  (compile-and-load "dired-conf")
-  (compile-and-load "edit-conf")
-  (compile-and-load "ess-conf")
-  (compile-and-load "general-conf")
-  (compile-and-load "latex-conf")
-  (compile-and-load "movement-conf")
-  (compile-and-load "org-ref")
-  (compile-and-load "org-babel")
-  (compile-and-load "python-conf")
-  (compile-and-load "rust-conf")
-  (compile-and-load "visual-conf")
+  (compile-and-load "user-config")
 
   ;; TCL specific
   (add-hook 'tcl-mode-hook (lambda () (setq tcl-indent-level 2)))
