@@ -612,11 +612,14 @@
 
 * Magit
 ** Magit TODOs
-
    Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
    #+BEGIN_SRC emacs-lisp
      (magit-todos-mode)
    #+END_SRC
+
+* Local variables
+Automatically tangle and compile file on save.
+Idea for placing this on a section comes from [[http://endlessparentheses.com/org-mode-subtrees-and-file-local-variables.html][here]].
 
 # Local Variables:
 # eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
