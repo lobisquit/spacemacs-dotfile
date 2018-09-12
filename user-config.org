@@ -610,6 +610,14 @@
      (setq org-latex-caption-above nil)
    #+END_SRC
 
+* Magit
+** Magit TODOs
+
+   Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
+   #+BEGIN_SRC emacs-lisp
+     (magit-todos-mode)
+   #+END_SRC
+
 # Local Variables:
 # eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
 # End:
