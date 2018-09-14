@@ -225,9 +225,8 @@
     Disable golden ration for certain buffers.
 
     #+BEGIN_SRC emacs-lisp
-      (add-to-list 'golden-ratio-exclude-buffer-regexp
-                   "\\*gud-.*\\*"
-                   "\\*xref\\*")
+      (mapcar (lambda (expr) (add-to-list 'golden-ratio-exclude-buffer-regexp expr))
+              '("\\*Edit Formulas\\*" "\\*gud-.*\\*" "\\*xref\\*"))
     #+END_SRC
 
 *** Fira Code ligatures
