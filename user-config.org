@@ -545,6 +545,8 @@
         (shell . t)))
    #+END_SRC
 
+   Load asymptote from system installation.
+
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'load-path "/usr/share/asymptote")
      (autoload 'asy-mode "asy-mode.el" "Asymptote major mode." t)
@@ -573,12 +575,13 @@
      (eval-when-compile
        (require 'bibtex))
 
-     (setq reftex-default-bibliography (list (concat (getenv "BIBINPUTS") "/biblio.bib")))
+     (setq reftex-default-bibliography (list (concat (getenv "BIBINPUTS") "biblio.bib")))
+
      ;; see org-ref for use of these variables
-     (setq org-ref-bibliography-notes (concat (getenv "BIBINPUTS") "/notes.org")
-           org-ref-default-bibliography (list (concat (getenv "BIBINPUTS") "/biblio.bib"))
-           org-ref-pdf-directory (concat (getenv "BIBINPUTS") "/Paper/"))
-       #+END_SRC
+     (setq org-ref-bibliography-notes (concat (getenv "BIBINPUTS") "notes.org")
+           org-ref-default-bibliography (list (concat (getenv "BIBINPUTS") "biblio.bib"))
+           org-ref-pdf-directory (concat (getenv "BIBINPUTS") "Paper/"))
+   #+END_SRC
 
    Custom reference key generation.
 
