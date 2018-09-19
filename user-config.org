@@ -626,3 +626,22 @@
   # Local Variables:
   # eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
   # End:
+* hledger
+  Open files with ~.journal~ extension in hledger-mode.
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'hledger-mode)
+
+    (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
+  #+END_SRC
+
+  Auto-complete names with ~company~.
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'hledger-mode-hook
+              (lambda () (add-to-list 'company-backends 'hledger-company)))
+  #+END_SRC
+
+  Set default file.
+  #+BEGIN_SRC emacs-lisp
+    (setq hledger-jfile "/home/enrico/Archivi/ledger/ledger.journal")
+  #+END_SRC
