@@ -225,8 +225,8 @@
     Disable golden ration for certain buffers.
 
     #+BEGIN_SRC emacs-lisp
-      (mapcar (lambda (expr) (add-to-list 'golden-ratio-exclude-buffer-regexp expr))
-              '("\\*Edit Formulas\\*" "\\*gud-.*\\*" "\\*xref\\*"))
+      (mapc (lambda (expr) (add-to-list 'golden-ratio-exclude-buffer-regexp expr))
+            '("\\*Edit Formulas\\*" "\\*gud-.*\\*" "\\*xref\\*"))
     #+END_SRC
 
 *** Fira Code ligatures
@@ -532,19 +532,28 @@
      (setq org-src-tab-acts-natively t)
    #+END_SRC
 
-   Enable code blocks in org files
+   Enable code blocks in org files.
 
    #+BEGIN_SRC emacs-lisp
      (org-babel-do-load-languages
       'org-babel-load-languages
       '((asymptote . t)
         (python . t)
+        (ditaa . t)
         (asymptote . t)
         (plantuml . t)
+        (hledger . t)
         (shell . t)))
    #+END_SRC
 
-   Load asymptote from system installation.
+   Nice hook I found on ~org-babel~ examples for automatic showing images.
+
+   #+BEGIN_SRC emacs-lisp :tangle no
+     (add-hook 'org-babel-after-execute-hook (lambda () (org-display-inline-images nil t) (org-redisplay-inline-images)))
+     (setq org-confirm-babel-evaluate nil)
+   #+END_SRC
+
+   Load ~asymptote~ from system installation.
 
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'load-path "/usr/share/asymptote")
@@ -554,17 +563,15 @@
      (add-to-list 'auto-mode-alist '("\\.asy$" . asy-mode))
    #+END_SRC
 
-   Load PlanUML executable.
+   Load PlantUML executable.
 
    #+BEGIN_SRC emacs-lisp
      (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
    #+END_SRC
 
-   Nice hook I found on ~org-babel~ examples for automatic showing images.
-
-   #+BEGIN_SRC emacs-lisp :tangle no
-     (add-hook 'org-babel-after-execute-hook (lambda () (org-display-inline-images nil t) (org-redisplay-inline-images)))
-     (setq org-confirm-babel-evaluate nil)
+   Load ~ditaa~ executable.
+   #+BEGIN_SRC emacs-lisp
+     (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
    #+END_SRC
 
 ** Ref
@@ -612,6 +619,19 @@
      (setq org-latex-caption-above nil)
    #+END_SRC
 
+   Do not "mangle" labels in ~tex~ output.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-latex-prefer-user-labels t)
+   #+END_SRC
+
+   Enable ~eps~ preview in ~org mode~.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'image-type-file-name-regexps '("\\.eps\\'" . imagemagick)  )
+     (add-to-list 'image-file-name-extensions "eps")
+     (setq org-image-actual-width '(200))
+   #+END_SRC
 * Magit
 ** Magit TODOs
    Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
