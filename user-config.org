@@ -632,6 +632,25 @@
      (add-to-list 'image-file-name-extensions "eps")
      (setq org-image-actual-width '(200))
    #+END_SRC
+
+   Customize the capture-like template for taking notes.
+   #+BEGIN_SRC emacs-lisp
+     (setq org-ref-note-title-format
+           "** %y - %t
+      :PROPERTIES:
+       :Custom_ID: %k
+       :AUTHOR: %9a
+       :JOURNAL: %j
+       :YEAR: %y
+       :VOLUME: %v
+       :PAGES: %p
+       :DOI: %D
+       :URL: %U
+      :END:
+
+     ")
+   #+END_SRC
+
 * Magit
 ** Magit TODOs
    Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
