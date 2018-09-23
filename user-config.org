@@ -665,3 +665,10 @@
   #+BEGIN_SRC emacs-lisp
     (setq hledger-jfile "/home/enrico/Archivi/ledger/ledger.journal")
   #+END_SRC
+* pdf-tools
+  Add short command for highlighting.
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'pdf-tools)
+    (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
+  #+END_SRC
