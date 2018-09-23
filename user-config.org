@@ -597,7 +597,7 @@
            bibtex-autokey-year-title-separator ""
            bibtex-autokey-titleword-separator "-"
            bibtex-autokey-titlewords 0
-           bibtex-autokey-titlewords-stretch 1
+           bibtex-autokey-titlewords-stretch 0
            bibtex-autokey-titleword-length 0
            bibtex-autokey-name-case-convert-function 'capitalize)
    #+END_SRC
