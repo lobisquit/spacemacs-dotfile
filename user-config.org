@@ -378,6 +378,12 @@
                                             fira-code-font-lock-keywords-alist)))
     #+END_SRC
 
+*** Parents coloring
+    Remove nasty delay between cursor stop and parenthesis highlighting.
+    #+BEGIN_SRC emacs-lisp
+      (setq show-paren-delay 0)
+      (setq show-paren-when-point-inside-paren t)
+    #+END_SRC
 * Programming languages
 ** R
    Disable nasty keybinding setting underscore as assign (~<-~).
