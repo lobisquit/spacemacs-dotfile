@@ -584,8 +584,7 @@
    All global files are relative to ~BIBINPUTS~ path, in order to be consistent with LaTeX.
 
    #+BEGIN_SRC emacs-lisp
-     (eval-when-compile
-       (require 'bibtex))
+     (require 'bibtex)
 
      (setq reftex-default-bibliography (list (concat (getenv "BIBINPUTS") "biblio.bib")))
 
@@ -655,6 +654,13 @@
       :END:
 
      ")
+   #+END_SRC
+
+** LaTeX
+   Set bigger preview for LaTeX formulas.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
    #+END_SRC
 
 * Magit
