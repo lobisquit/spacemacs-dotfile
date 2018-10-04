@@ -670,13 +670,6 @@
      (magit-todos-mode)
    #+END_SRC
 
-* Local variables
-  Automatically tangle and compile file on save.
-  Idea for placing this on a section comes from [[http://endlessparentheses.com/org-mode-subtrees-and-file-local-variables.html][here]].
-
-  # Local Variables:
-  # eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
-  # End:
 * hledger
   Open files with ~.journal~ extension in hledger-mode.
 
@@ -704,3 +697,11 @@
     (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
     (define-key pdf-view-mode-map (kbd "y") 'pdf-view-kill-ring-save)
   #+END_SRC
+* Local variables
+  Automatically tangle and compile file on save.
+  Idea for placing this on a section comes from [[http://endlessparentheses.com/org-mode-subtrees-and-file-local-variables.html][here]].
+
+  # Local Variables:
+  # eval: (add-hook 'before-save-hook (lambda () (indent-region (point-min) (point-max) nil)) t t)
+  # eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
+  # End:
