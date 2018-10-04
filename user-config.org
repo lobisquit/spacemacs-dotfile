@@ -690,13 +690,33 @@
     (setq hledger-jfile "/home/enrico/Archivi/ledger/ledger.journal")
   #+END_SRC
 * pdf-tools
-  Add proper commands for common actions.
+  Add proper commands for common annotation actions.
 
   #+BEGIN_SRC emacs-lisp
     (require 'pdf-tools)
     (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
-    (define-key pdf-view-mode-map (kbd "y") 'pdf-view-kill-ring-save)
+    ;; (defun pdf-annot-add-text-annotation-with-activation ()
+    ;;   (interactive)
+    ;;   (let ((pdf-annot-activate-created-annotations t))
+    ;;     (pdf-annot-add-text-annotation '(3))))
+
+    ;; (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation-with-activation)
+    (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
   #+END_SRC
+
+  Improved kill region in PDF, that shows starting piece of selection.
+
+  #+BEGIN_SRC emacs-lisp
+    (defun pdf-view-kill-ring-save-with-message ()
+      (interactive)
+      (let* ((selection (car (pdf-view-active-region-text)))
+             (snippet (substring selection 0 (min (length snippet) 20))))
+        (message (concat "copying \"" snippet "...\" to kill ring")))
+      (pdf-view-kill-ring-save))
+
+    (define-key pdf-view-mode-map (kbd "y") 'pdf-view-kill-ring-save-with-message)
+  #+END_SRC
+
 * Local variables
   Automatically tangle and compile file on save.
   Idea for placing this on a section comes from [[http://endlessparentheses.com/org-mode-subtrees-and-file-local-variables.html][here]].

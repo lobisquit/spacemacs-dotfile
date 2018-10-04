@@ -391,6 +391,14 @@ you should place your code here."
  '(safe-local-variable-values
    (quote
     ((eval add-hook
+           (quote before-save-hook)
+           (lambda nil
+             (indent-region
+              (point-min)
+              (point-max)
+              nil))
+           t t)
+     (eval add-hook
            (quote after-save-hook)
            (quote org-babel-tangle-and-byte-compile-this-file)
            t t)
@@ -400,4 +408,4 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background nil)))))
