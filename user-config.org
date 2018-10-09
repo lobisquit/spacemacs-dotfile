@@ -236,7 +236,7 @@
       (global-prettify-symbols-mode t)
     #+END_SRC
 
-    Following settings are taken from Fira Code [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions][wiki page].
+    Following settings are taken from Fira Code [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions][wiki page]].
     Fix certain glyphs appearance, both in standalone and daemon Emacs.
 
     #+BEGIN_SRC emacs-lisp
