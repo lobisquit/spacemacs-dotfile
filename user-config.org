@@ -545,10 +545,12 @@
       'org-babel-load-languages
       '((asymptote . t)
         (python . t)
+        (dot . t)
         (ditaa . t)
         (asymptote . t)
         (plantuml . t)
         (hledger . t)
+        (R . t)
         (shell . t)))
    #+END_SRC
 
