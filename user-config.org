@@ -48,6 +48,11 @@
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   #+END_SRC
 
+  Load relevant ~env~ from shell: this is not done automatically by ~emacs~ when started with ~systemd~ deamon.
+  #+BEGIN_SRC emacs-lisp
+    (exec-path-from-shell-getenv "BIBINPUTS")
+  #+END_SRC
+
 ** Editing operations
    These settings involve how text is changed in Emacs.
 *** Changing text properties
@@ -546,6 +551,7 @@
       '((asymptote . t)
         (python . t)
         (dot . t)
+        (awk . t)
         (ditaa . t)
         (asymptote . t)
         (plantuml . t)
@@ -614,10 +620,10 @@
 
    #+BEGIN_SRC emacs-lisp
      (setq org-latex-pdf-process
-           '("%latex -interaction nonstopmode -output-directory %o %f"
+           '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "bibtex %b"
-             "%latex -interaction nonstopmode -output-directory %o %f"
-             "%latex -interaction nonstopmode -output-directory %o %f"))
+             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
    #+END_SRC
 
    Put caption below all floats (images, tables, ...).
