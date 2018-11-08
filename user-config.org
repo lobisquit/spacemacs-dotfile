@@ -48,6 +48,11 @@
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   #+END_SRC
 
+  Load relevant ~env~ from shell: this is not done automatically by ~emacs~ when started with ~systemd~ deamon.
+  #+BEGIN_SRC emacs-lisp
+    (exec-path-from-shell-getenv "BIBINPUTS")
+  #+END_SRC
+
 ** Editing operations
    These settings involve how text is changed in Emacs.
 *** Changing text properties
