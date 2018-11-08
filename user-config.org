@@ -545,10 +545,12 @@
       'org-babel-load-languages
       '((asymptote . t)
         (python . t)
+        (awk . t)
         (ditaa . t)
         (asymptote . t)
         (plantuml . t)
         (hledger . t)
+        (R . t)
         (shell . t)))
    #+END_SRC
 
@@ -612,10 +614,10 @@
 
    #+BEGIN_SRC emacs-lisp
      (setq org-latex-pdf-process
-           '("%latex -interaction nonstopmode -output-directory %o %f"
+           '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "bibtex %b"
-             "%latex -interaction nonstopmode -output-directory %o %f"
-             "%latex -interaction nonstopmode -output-directory %o %f"))
+             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
    #+END_SRC
 
    Put caption below all floats (images, tables, ...).
