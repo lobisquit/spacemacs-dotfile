@@ -53,6 +53,12 @@
     (exec-path-from-shell-getenv "BIBINPUTS")
   #+END_SRC
 
+  Put ~custom-set-variables~ inside a proper gitignored file.
+  #+BEGIN_SRC emacs-lisp
+    (setq custom-file "~/.spacemacs.d/custom-file.el")
+    (load-file custom-file)
+  #+END_SRC
+
 ** Editing operations
    These settings involve how text is changed in Emacs.
 *** Changing text properties
