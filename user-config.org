@@ -689,10 +689,12 @@ Stolen from [[https://emacs.stackexchange.com/questions/38198/automatically-prev
 
 #+BEGIN_SRC emacs-lisp
   (defun org-render-latex-fragments ()
-    (if (org--list-latex-overlays)
-        (progn (org-toggle-latex-fragment)
-               (org-toggle-latex-fragment))
-      (org-toggle-latex-fragment)))
+    (let ((globally '(16)))
+      (if (org--list-latex-overlays)
+          (progn (org-toggle-latex-fragment globally)
+                 (org-toggle-latex-fragment globally))
+        (org-toggle-latex-fragment globally))))
+
 #+END_SRC
 
 * Magit
