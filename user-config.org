@@ -1,741 +1,758 @@
 #+PROPERTY: header-args+ :results silent
 #+PROPERTY: header-args+ :tangle yes
 #+PROPERTY: header-args+ :cache yes
+#+STARTUP: indent
 
 * General settings
-  Keep backup copies of files, but in .emacs directory.
-  This avoid dumping every folder emacs works in.
+Keep backup copies of files, but in .emacs directory.
+This avoid dumping every folder emacs works in.
 
-  #+BEGIN_SRC emacs-lisp
-    (setq-default
-     backup-by-copying t
-     backup-directory-alist '(("." . "~/.emacs.d/saves"))
-     delete-old-versions t
-     make-backup-files t
-     version-control 'numbered)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq-default
+   backup-by-copying t
+   backup-directory-alist '(("." . "~/.emacs.d/saves"))
+   delete-old-versions t
+   make-backup-files t
+   version-control 'numbered)
+#+END_SRC
 
-  Send file to trash instead of ~rm~ them.
-  This allows restoring file accidentaly trashed.
+Send file to trash instead of ~rm~ them.
+This allows restoring file accidentaly trashed.
 
-  #+BEGIN_SRC emacs-lisp
-    (setq delete-by-moving-to-trash t)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq delete-by-moving-to-trash t)
+#+END_SRC
 
-  Enable auto-completion globally through company.
+Enable auto-completion globally through company.
 
-  #+BEGIN_SRC emacs-lisp
-    (global-company-mode)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-company-mode)
+#+END_SRC
 
-  Disable nasty overwrite mode when pressing ~Ins~ button.
+Disable nasty overwrite mode when pressing ~Ins~ button.
 
-  #+BEGIN_SRC emacs-lisp
-    (define-key global-map [(insert)] nil)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (define-key global-map [(insert)] nil)
+#+END_SRC
 
-  Custom ~revert-buffer~ keybindings (with or without confirmation).
+Custom ~revert-buffer~ keybindings (with or without confirmation).
 
-  #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "<f5>") 'revert-buffer)
-    (global-set-key (kbd "C-<f5>") (lambda ()
-                                     (interactive) (revert-buffer t t)))
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+  (global-set-key (kbd "C-<f5>") (lambda ()
+                                   (interactive) (revert-buffer t t)))
+#+END_SRC
 
-  Enable line numbers on all programming buffers.
+Enable line numbers on all programming buffers.
 
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+#+END_SRC
 
-  Load relevant ~env~ from shell: this is not done automatically by ~emacs~ when started with ~systemd~ deamon.
-  #+BEGIN_SRC emacs-lisp
-    (exec-path-from-shell-getenv "BIBINPUTS")
-  #+END_SRC
+Load relevant ~env~ from shell: this is not done automatically by ~emacs~ when started with ~systemd~ deamon.
+#+BEGIN_SRC emacs-lisp
+  (exec-path-from-shell-getenv "BIBINPUTS")
+#+END_SRC
 
-  Put ~custom-set-variables~ inside a proper gitignored file.
-  #+BEGIN_SRC emacs-lisp
-    (setq custom-file "~/.spacemacs.d/custom-file.el")
-    (load-file custom-file)
-  #+END_SRC
+Put ~custom-set-variables~ inside a proper gitignored file.
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file "~/.spacemacs.d/custom-file.el")
+  (load-file custom-file)
+#+END_SRC
 
 ** Editing operations
-   These settings involve how text is changed in Emacs.
+These settings involve how text is changed in Emacs.
 *** Changing text properties
-    Custom toggle comment keybinding.
+Custom toggle comment keybinding.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-set-key (kbd "s-c") 'comment-line)
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "s-c") 'comment-line)
+#+END_SRC
 
 *** Killing
-    Emacs default behaviour when deleting a word is to copy it to kill-ring.
-    Better avoid this, delegating the killing to ~C-w~.
+Emacs default behaviour when deleting a word is to copy it to kill-ring.
+Better avoid this, delegating the killing to ~C-w~.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-set-key (kbd "<C-backspace>") 'delete-word)
-      (global-set-key (kbd "<C-delete>")    'delete-word)
-      (global-set-key (kbd "M-DEL")         'delete-word)
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<C-backspace>") 'delete-word)
+  (global-set-key (kbd "<C-delete>")    'delete-word)
+  (global-set-key (kbd "M-DEL")         'delete-word)
 
-      (defun delete-word (arg)
-        "Delete characters backward until encountering the beginning of a word.
-         With argument ARG, do this that many times."
-        (interactive "p")
-        (delete-region (point) (progn (backward-word arg) (point))))
-    #+END_SRC
+  (defun delete-word (arg)
+    "Delete characters backward until encountering the beginning of a word.
+     With argument ARG, do this that many times."
+    (interactive "p")
+    (delete-region (point) (progn (backward-word arg) (point))))
+#+END_SRC
 
-    If no region is selected, ~C-w~ kills whole line.
+If no region is selected, ~C-w~ kills whole line.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-set-key (kbd "C-w") 'kill-line-or-region)
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-w") 'kill-line-or-region)
 
-      (defun kill-line-or-region ()
-        "Kill region if active only or kill line (smartly)"
-        (interactive)
-        (if (region-active-p)
-            (call-interactively 'kill-region)
-          (call-interactively 'smart-kill-whole-line)))
+  (defun kill-line-or-region ()
+    "Kill region if active only or kill line (smartly)"
+    (interactive)
+    (if (region-active-p)
+        (call-interactively 'kill-region)
+      (call-interactively 'smart-kill-whole-line)))
 
-      (defun smart-kill-whole-line (&optional arg)
-        "A simple wrapper around `kill-whole-line' that respects indentation."
-        (interactive "P")
-        (kill-whole-line arg)
-        (back-to-indentation))
-    #+END_SRC
+  (defun smart-kill-whole-line (&optional arg)
+    "A simple wrapper around `kill-whole-line' that respects indentation."
+    (interactive "P")
+    (kill-whole-line arg)
+    (back-to-indentation))
+#+END_SRC
 
 *** Copying
-    If no region is selected, ~M-w~ copies whole line.
+If no region is selected, ~M-w~ copies whole line.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-set-key (kbd "M-w") 'copy-line-or-region)
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-w") 'copy-line-or-region)
 
-      (defun copy-line (arg)
-        "Copy lines (as many as prefix argument) in the kill ring.
-            Ease of use features:
-            - Move to start of next line.
-            - Appends the copy on sequential calls.
-            - Use newline as last char even on the last line of the buffer.
-            - If region is active, copy its lines."
-        (interactive "p")
-        (let ((beg (line-beginning-position))
-              (end (line-end-position arg)))
-          (when mark-active
-            (if (> (point) (mark))
-                (setq beg (save-excursion
-                            (goto-char (mark))
-                            (line-beginning-position)))
-              (setq end (save-excursion
-                          (goto-char (mark))
-                          (line-end-position)))))
-          (if (eq last-command 'copy-line)
-              (kill-append (buffer-substring beg end) (< end beg))
-            (kill-ring-save beg end)))
-        (kill-append "\n" nil)
-        (beginning-of-line (or (and arg (1+ arg)) 2))
-        (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
+  (defun copy-line (arg)
+    "Copy lines (as many as prefix argument) in the kill ring.
+        Ease of use features:
+        - Move to start of next line.
+        - Appends the copy on sequential calls.
+        - Use newline as last char even on the last line of the buffer.
+        - If region is active, copy its lines."
+    (interactive "p")
+    (let ((beg (line-beginning-position))
+          (end (line-end-position arg)))
+      (when mark-active
+        (if (> (point) (mark))
+            (setq beg (save-excursion
+                        (goto-char (mark))
+                        (line-beginning-position)))
+          (setq end (save-excursion
+                      (goto-char (mark))
+                      (line-end-position)))))
+      (if (eq last-command 'copy-line)
+          (kill-append (buffer-substring beg end) (< end beg))
+        (kill-ring-save beg end)))
+    (kill-append "\n" nil)
+    (beginning-of-line (or (and arg (1+ arg)) 2))
+    (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
 
-      (defun copy-line-or-region ()
-        "Copy region if active only or copy whole line"
-        (interactive)
-        (if (region-active-p)
-            (call-interactively 'kill-ring-save)
-          (call-interactively 'copy-line)))
-    #+END_SRC
+  (defun copy-line-or-region ()
+    "Copy region if active only or copy whole line"
+    (interactive)
+    (if (region-active-p)
+        (call-interactively 'kill-ring-save)
+      (call-interactively 'copy-line)))
+#+END_SRC
 
-    Copy current file path in kill-ring.
+Copy current file path in kill-ring.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-set-key [C-f1] 'kill-file-name)
+#+BEGIN_SRC emacs-lisp
+  (global-set-key [C-f1] 'kill-file-name)
 
-      (defun kill-file-name ()
-        "Get file name as last element in kill ring, i.e. copy file name to clipboard."
-        (interactive)
-        (let ((file-name (buffer-file-name)))
-          (if file-name
-              (progn
-                (message (concat "\"" file-name "\" copied to clipboard"))
-                (kill-new file-name))
-            (message "Current buffer is not related to any file"))))
-    #+END_SRC
+  (defun kill-file-name ()
+    "Get file name as last element in kill ring, i.e. copy file name to clipboard."
+    (interactive)
+    (let ((file-name (buffer-file-name)))
+      (if file-name
+          (progn
+            (message (concat "\"" file-name "\" copied to clipboard"))
+            (kill-new file-name))
+        (message "Current buffer is not related to any file"))))
+#+END_SRC
 
 ** Movement
-   Custom switch to other window in focus.
-   Chosen because it is faster than traditional ~C-x o~.
+Custom switch to other window in focus.
+Chosen because it is faster than traditional ~C-x o~.
 
-   #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "s-o") 'other-window)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "s-o") 'other-window)
+#+END_SRC
 
-   Enable custom variation to ~winner~ commands: accept also if ~C~ is pressed (common mistake of mine).
+Enable custom variation to ~winner~ commands: accept also if ~C~ is pressed (common mistake of mine).
 
-   #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "C-c C-<left>") 'winner-undo)
-     (global-set-key (kbd "C-c C-<right>") 'winner-redo)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c C-<left>") 'winner-undo)
+  (global-set-key (kbd "C-c C-<right>") 'winner-redo)
+#+END_SRC
 
-   Move at beginning of code: to move at column 0, execute twice.
+Move at beginning of code: to move at column 0, execute twice.
 
-   #+BEGIN_SRC emacs-lisp
-     (eval-when-compile
-       (require 'eshell))
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'eshell))
 
-     (global-set-key (kbd "<home>") 'smart-line-beginning)
+  (global-set-key (kbd "<home>") 'smart-line-beginning)
 
-     (defun smart-line-beginning ()
-       "Jump to indentation or beginning of line if already there."
-       (interactive "^")
-       ;; handle eshell differently
-       (if (bound-and-true-p eshell-mode)
-           (eshell-bol)
-         ;; normal behaviour
-         (let ((current-point (point)))
-           (beginning-of-line-text)
-           (when (eq current-point (point))
-             (beginning-of-line)))))
-   #+END_SRC
+  (defun smart-line-beginning ()
+    "Jump to indentation or beginning of line if already there."
+    (interactive "^")
+    ;; handle eshell differently
+    (if (bound-and-true-p eshell-mode)
+        (eshell-bol)
+      ;; normal behaviour
+      (let ((current-point (point)))
+        (beginning-of-line-text)
+        (when (eq current-point (point))
+          (beginning-of-line)))))
+#+END_SRC
 
 ** Visual
-   These settings involve the visual appearance of items and text in Emacs.
+These settings involve the visual appearance of items and text in Emacs.
 *** Powerline settings
-    Set a nice custom ~powerline~ separator.
-    Remember to set proper ~powerline-scale~ in ~dotspacemacs-default-font~.
+Set a nice custom ~powerline~ separator.
+Remember to set proper ~powerline-scale~ in ~dotspacemacs-default-font~.
 
-    #+BEGIN_SRC emacs-lisp
-      (setq powerline-default-separator 'arrow)
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq powerline-default-separator 'arrow)
+#+END_SRC
 
 *** Folding
-    Custom ~origami~ keybinding.
+Custom ~origami~ keybinding.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-set-key (kbd "C-$") 'origami-recursively-toggle-node)
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-$") 'origami-recursively-toggle-node)
+#+END_SRC
 
-    When window width is too small, wrap lines at word boundaries, not in any char.
+When window width is too small, wrap lines at word boundaries, not in any char.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-visual-line-mode t)
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-visual-line-mode t)
+#+END_SRC
 
 *** Window management
-    This setting ensure that new buffer are open splitting screen horizontally, not vertically.
+This setting ensure that new buffer are open splitting screen horizontally, not vertically.
 
-    #+BEGIN_SRC emacs-lisp
-      (setq split-height-threshold 50)
-      (setq split-width-threshold 70)
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq split-height-threshold 50)
+  (setq split-width-threshold 70)
+#+END_SRC
 
-    Enable golden ratio, that makes buffer on focus bigger on the screen.
+Enable golden ratio, that makes buffer on focus bigger on the screen.
 
-    #+BEGIN_SRC emacs-lisp
-      (require 'golden-ratio)
+#+BEGIN_SRC emacs-lisp
+  (require 'golden-ratio)
 
-      (golden-ratio-mode t)
-    #+END_SRC
+  (golden-ratio-mode t)
+#+END_SRC
 
-    Disable golden ration for certain buffers.
+Disable golden ration for certain buffers.
 
-    #+BEGIN_SRC emacs-lisp
-      (mapc (lambda (expr) (add-to-list 'golden-ratio-exclude-buffer-regexp expr))
-            '("\\*Edit Formulas\\*" "\\*gud-.*\\*" "\\*xref\\*"))
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (mapc (lambda (expr) (add-to-list 'golden-ratio-exclude-buffer-regexp expr))
+        '("\\*Edit Formulas\\*" "\\*gud-.*\\*" "\\*xref\\*"))
+#+END_SRC
 
 *** Fira Code ligatures
-    Enable ligatures and prettifications everywhere in Emacs.
+Enable ligatures and prettifications everywhere in Emacs.
 
-    #+BEGIN_SRC emacs-lisp
-      (global-prettify-symbols-mode t)
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (global-prettify-symbols-mode t)
+#+END_SRC
 
-    Following settings are taken from Fira Code [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions][wiki page]].
-    Fix certain glyphs appearance, both in standalone and daemon Emacs.
+Following settings are taken from Fira Code [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions][wiki page]].
+Fix certain glyphs appearance, both in standalone and daemon Emacs.
 
-    #+BEGIN_SRC emacs-lisp
-      (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-make-frame-functions
+            (lambda (frame)
+              (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
 
-      (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
-    #+END_SRC
+  (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
+#+END_SRC
 
-    Define chunks of text to prettify.
-    Some have been removed with respect to the wiki page because they are too strong.
+Define chunks of text to prettify.
+Some have been removed with respect to the wiki page because they are too strong.
 
-    #+BEGIN_SRC emacs-lisp
-      (defconst fira-code-font-lock-keywords-alist
-        (mapcar (lambda (regex-char-pair)
-                  `(,(car regex-char-pair)
-                    (0 (prog1 ()
-                         (compose-region (match-beginning 1)
-                                         (match-end 1)
-                                         ;; The first argument to concat is a string containing a literal tab
-                                         ,(concat "	" (list (decode-char 'ucs (cadr regex-char-pair)))))))))
-                '(
-                  ;;("\\(www\\)"                   #Xe100)
-                  ;; ("[^/]\\(\\*\\*\\)[^/]"        #Xe101)
-                  ;; ("\\(\\*\\*\\*\\)"             #Xe102)
-                  ;; ("\\(\\*\\*/\\)"               #Xe103)
-                  ;; ("\\(\\*>\\)"                  #Xe104)
-                  ;; ("[^*]\\(\\*/\\)"              #Xe105)
-                  ("\\(\\\\\\\\\\)"              #Xe106)
-                  ("\\(\\\\\\\\\\\\\\)"          #Xe107)
-                  ;; ("\\({-\\)"                    #Xe108)
-                  ;; ("\\(\\[\\]\\)"                #Xe109)
-                  ("\\(::\\)"                    #Xe10a)
-                  ;; ("\\(:::\\)"                   #Xe10b)
-                  ;; ("[^=]\\(:=\\)"                #Xe10c)
-                  ("\\(!!\\)"                    #Xe10d)
-                  ("\\(!=\\)"                    #Xe10e)
-                  ;; ("\\(!==\\)"                   #Xe10f)
-                  ;; ("\\(-}\\)"                    #Xe110)
-                  ("[^-]\\(--\\)[^-]"            #Xe111)
-                  ("[^-]\\(---\\)[^-]"           #Xe112)
-                  ("\\(-->\\)"                   #Xe113)
-                  ("[^-]\\(->\\)"                #Xe114)
-                  ;; ("\\(->>\\)"                   #Xe115)
-                  ;; ("\\(-<\\)"                    #Xe116)
-                  ;; ("\\(-<<\\)"                   #Xe117)
-                  ;; ("\\(-~\\)"                    #Xe118)
-                  ;; ("\\(#{\\)"                    #Xe119)
-                  ("\\(#\\[\\)"                  #Xe11a)
-                  ("\\(##\\)[^#\n]"              #Xe11b)
-                  ("\\(###\\)[^#\n]"             #Xe11c)
-                  ("\\(####\\)[^#\n]"            #Xe11d)
-                  ;; ("\\(#(\\)"                    #Xe11e)
-                  ;; ("\\(#\\?\\)"                  #Xe11f)
-                  ;; ("\\(#_\\)"                    #Xe120)
-                  ;; ("\\(#_(\\)"                   #Xe121)
-                  ;; ("\\(\\.-\\)"                  #Xe122)
-                  ;; ("\\(\\.=\\)"                  #Xe123)
-                  ;; ("\\(\\.\\.\\)"                #Xe124)
-                  ;; ("\\(\\.\\.<\\)"               #Xe125)
-                  ("\\(\\.\\.\\.\\)"             #Xe126)
-                  ;; ("\\(\\?=\\)"                  #Xe127)
-                  ;; ("\\(\\?\\?\\)"                #Xe128)
-                  ("\\(;;\\)"                    #Xe129)
-                  ("\\(/\\*\\)"                  #Xe12a)
-                  ("\\(/\\*\\*\\)"               #Xe12b)
-                  ;; ("\\(/=\\)"                    #Xe12c)
-                  ;; ("\\(/==\\)"                   #Xe12d)
-                  ;; ("\\(/>\\)"                    #Xe12e)
-                  ("\\(//\\)"                    #Xe12f)
-                  ("\\(///\\)"                   #Xe130)
-                  ("\\(&&\\)"                    #Xe131)
-                  ("\\(||\\)"                    #Xe132)
-                  ;; ("\\(||=\\)"                   #Xe133)
-                  ;; ("[^|]\\(|=\\)"                #Xe134)
-                  ;; ("\\(|>\\)"                    #Xe135)
-                  ;; ("\\(\\^=\\)"                  #Xe136)
-                  ;; ("\\(\\$>\\)"                  #Xe137)
-                  ("\\(\\+\\+\\)"                #Xe138)
-                  ;; ("\\(\\+\\+\\+\\)"             #Xe139)
-                  ;; ("\\(\\+>\\)"                  #Xe13a)
-                  ;; ("\\(=:=\\)"                   #Xe13b)
-                  ("[^!/]\\(==\\)[^>]"           #Xe13c)
-                  ;; ("\\(===\\)"                   #Xe13d)
-                  ("\\(==>\\)"                   #Xe13e)
-                  ("[^=]\\(=>\\)"                #Xe13f)
-                  ;; ("\\(=>>\\)"                   #Xe140)
-                  ("\\(<=\\)"                    #Xe141)
-                  ;; ("\\(=<<\\)"                   #Xe142)
-                  ;; ("\\(=/=\\)"                   #Xe143)
-                  ;; ("\\(>-\\)"                    #Xe144)
-                  ("\\(>=\\)"                    #Xe145)
-                  ;; ("\\(>=>\\)"                   #Xe146)
-                  ("[^-=]\\(>>\\)"               #Xe147)
-                  ;; ("\\(>>-\\)"                   #Xe148)
-                  ;; ("\\(>>=\\)"                   #Xe149)
-                  ("\\(>>>\\)"                   #Xe14a)
-                  ("\\(<\\*\\)"                  #Xe14b)
-                  ("\\(<\\*>\\)"                 #Xe14c)
-                  ;; ("\\(<|\\)"                    #Xe14d)
-                  ;; ("\\(<|>\\)"                   #Xe14e)
-                  ("\\(<\\$\\)"                  #Xe14f)
-                  ("\\(<\\$>\\)"                 #Xe150)
-                  ;; ("\\(<!--\\)"                  #Xe151)
-                  ("\\(<-\\)"                    #Xe152)
-                  ("\\(<--\\)"                   #Xe153)
-                  ("\\(<->\\)"                   #Xe154)
-                  ;; ("\\(<\\+\\)"                  #Xe155)
-                  ;; ("\\(<\\+>\\)"                 #Xe156)
-                  ("\\(<=\\)"                    #Xe157)
-                  ("\\(<==\\)"                   #Xe158)
-                  ("\\(<=>\\)"                   #Xe159)
-                  ;; ("\\(<=<\\)"                   #Xe15a)
-                  ;; ("\\(<>\\)"                    #Xe15b)
-                  ("[^-=]\\(<<\\)"               #Xe15c)
-                  ;; ("\\(<<-\\)"                   #Xe15d)
-                  ;; ("\\(<<=\\)"                   #Xe15e)
-                  ("\\(<<<\\)"                   #Xe15f)
-                  ;; ("\\(<~\\)"                    #Xe160)
-                  ;; ("\\(<~~\\)"                   #Xe161)
-                  ("\\(</\\)"                    #Xe162)
-                  ("\\(</>\\)"                   #Xe163)
-                  ;; ("\\(~@\\)"                    #Xe164)
-                  ;; ("\\(~-\\)"                    #Xe165)
-                  ("\\(~=\\)"                    #Xe166)
-                  ;; ("\\(~>\\)"                    #Xe167)
-                  ;; ("[^<]\\(~~\\)"                #Xe168)
-                  ;; ("\\(~~>\\)"                   #Xe169)
-                  ("\\(%%\\)"                    #Xe16a)
-                  ;; ("\\(x\\)"                    #Xe16b)
-                  ;; ("[^:=]\\(:\\)[^:=]"           #Xe16c)
-                  ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
-                  ;; ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f)
-                  )))
+#+BEGIN_SRC emacs-lisp
+  (defconst fira-code-font-lock-keywords-alist
+    (mapcar (lambda (regex-char-pair)
+              `(,(car regex-char-pair)
+                (0 (prog1 ()
+                     (compose-region (match-beginning 1)
+                                     (match-end 1)
+                                     ;; The first argument to concat is a string containing a literal tab
+                                     ,(concat "	" (list (decode-char 'ucs (cadr regex-char-pair)))))))))
+            '(
+              ;;("\\(www\\)"                   #Xe100)
+              ;; ("[^/]\\(\\*\\*\\)[^/]"        #Xe101)
+              ;; ("\\(\\*\\*\\*\\)"             #Xe102)
+              ;; ("\\(\\*\\*/\\)"               #Xe103)
+              ;; ("\\(\\*>\\)"                  #Xe104)
+              ;; ("[^*]\\(\\*/\\)"              #Xe105)
+              ("\\(\\\\\\\\\\)"              #Xe106)
+              ("\\(\\\\\\\\\\\\\\)"          #Xe107)
+              ;; ("\\({-\\)"                    #Xe108)
+              ;; ("\\(\\[\\]\\)"                #Xe109)
+              ("\\(::\\)"                    #Xe10a)
+              ;; ("\\(:::\\)"                   #Xe10b)
+              ;; ("[^=]\\(:=\\)"                #Xe10c)
+              ("\\(!!\\)"                    #Xe10d)
+              ("\\(!=\\)"                    #Xe10e)
+              ;; ("\\(!==\\)"                   #Xe10f)
+              ;; ("\\(-}\\)"                    #Xe110)
+              ("[^-]\\(--\\)[^-]"            #Xe111)
+              ("[^-]\\(---\\)[^-]"           #Xe112)
+              ("\\(-->\\)"                   #Xe113)
+              ("[^-]\\(->\\)"                #Xe114)
+              ;; ("\\(->>\\)"                   #Xe115)
+              ;; ("\\(-<\\)"                    #Xe116)
+              ;; ("\\(-<<\\)"                   #Xe117)
+              ;; ("\\(-~\\)"                    #Xe118)
+              ;; ("\\(#{\\)"                    #Xe119)
+              ("\\(#\\[\\)"                  #Xe11a)
+              ("\\(##\\)[^#\n]"              #Xe11b)
+              ("\\(###\\)[^#\n]"             #Xe11c)
+              ("\\(####\\)[^#\n]"            #Xe11d)
+              ;; ("\\(#(\\)"                    #Xe11e)
+              ;; ("\\(#\\?\\)"                  #Xe11f)
+              ;; ("\\(#_\\)"                    #Xe120)
+              ;; ("\\(#_(\\)"                   #Xe121)
+              ;; ("\\(\\.-\\)"                  #Xe122)
+              ;; ("\\(\\.=\\)"                  #Xe123)
+              ;; ("\\(\\.\\.\\)"                #Xe124)
+              ;; ("\\(\\.\\.<\\)"               #Xe125)
+              ("\\(\\.\\.\\.\\)"             #Xe126)
+              ;; ("\\(\\?=\\)"                  #Xe127)
+              ;; ("\\(\\?\\?\\)"                #Xe128)
+              ("\\(;;\\)"                    #Xe129)
+              ("\\(/\\*\\)"                  #Xe12a)
+              ("\\(/\\*\\*\\)"               #Xe12b)
+              ;; ("\\(/=\\)"                    #Xe12c)
+              ;; ("\\(/==\\)"                   #Xe12d)
+              ;; ("\\(/>\\)"                    #Xe12e)
+              ("\\(//\\)"                    #Xe12f)
+              ("\\(///\\)"                   #Xe130)
+              ("\\(&&\\)"                    #Xe131)
+              ("\\(||\\)"                    #Xe132)
+              ;; ("\\(||=\\)"                   #Xe133)
+              ;; ("[^|]\\(|=\\)"                #Xe134)
+              ;; ("\\(|>\\)"                    #Xe135)
+              ;; ("\\(\\^=\\)"                  #Xe136)
+              ;; ("\\(\\$>\\)"                  #Xe137)
+              ("\\(\\+\\+\\)"                #Xe138)
+              ;; ("\\(\\+\\+\\+\\)"             #Xe139)
+              ;; ("\\(\\+>\\)"                  #Xe13a)
+              ;; ("\\(=:=\\)"                   #Xe13b)
+              ("[^!/]\\(==\\)[^>]"           #Xe13c)
+              ;; ("\\(===\\)"                   #Xe13d)
+              ("\\(==>\\)"                   #Xe13e)
+              ("[^=]\\(=>\\)"                #Xe13f)
+              ;; ("\\(=>>\\)"                   #Xe140)
+              ("\\(<=\\)"                    #Xe141)
+              ;; ("\\(=<<\\)"                   #Xe142)
+              ;; ("\\(=/=\\)"                   #Xe143)
+              ;; ("\\(>-\\)"                    #Xe144)
+              ("\\(>=\\)"                    #Xe145)
+              ;; ("\\(>=>\\)"                   #Xe146)
+              ("[^-=]\\(>>\\)"               #Xe147)
+              ;; ("\\(>>-\\)"                   #Xe148)
+              ;; ("\\(>>=\\)"                   #Xe149)
+              ("\\(>>>\\)"                   #Xe14a)
+              ("\\(<\\*\\)"                  #Xe14b)
+              ("\\(<\\*>\\)"                 #Xe14c)
+              ;; ("\\(<|\\)"                    #Xe14d)
+              ;; ("\\(<|>\\)"                   #Xe14e)
+              ("\\(<\\$\\)"                  #Xe14f)
+              ("\\(<\\$>\\)"                 #Xe150)
+              ;; ("\\(<!--\\)"                  #Xe151)
+              ("\\(<-\\)"                    #Xe152)
+              ("\\(<--\\)"                   #Xe153)
+              ("\\(<->\\)"                   #Xe154)
+              ;; ("\\(<\\+\\)"                  #Xe155)
+              ;; ("\\(<\\+>\\)"                 #Xe156)
+              ("\\(<=\\)"                    #Xe157)
+              ("\\(<==\\)"                   #Xe158)
+              ("\\(<=>\\)"                   #Xe159)
+              ;; ("\\(<=<\\)"                   #Xe15a)
+              ;; ("\\(<>\\)"                    #Xe15b)
+              ("[^-=]\\(<<\\)"               #Xe15c)
+              ;; ("\\(<<-\\)"                   #Xe15d)
+              ;; ("\\(<<=\\)"                   #Xe15e)
+              ("\\(<<<\\)"                   #Xe15f)
+              ;; ("\\(<~\\)"                    #Xe160)
+              ;; ("\\(<~~\\)"                   #Xe161)
+              ("\\(</\\)"                    #Xe162)
+              ("\\(</>\\)"                   #Xe163)
+              ;; ("\\(~@\\)"                    #Xe164)
+              ;; ("\\(~-\\)"                    #Xe165)
+              ("\\(~=\\)"                    #Xe166)
+              ;; ("\\(~>\\)"                    #Xe167)
+              ;; ("[^<]\\(~~\\)"                #Xe168)
+              ;; ("\\(~~>\\)"                   #Xe169)
+              ("\\(%%\\)"                    #Xe16a)
+              ;; ("\\(x\\)"                    #Xe16b)
+              ;; ("[^:=]\\(:\\)[^:=]"           #Xe16c)
+              ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
+              ;; ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f)
+              )))
 
-      (add-hook 'prog-mode-hook (lambda () (font-lock-add-keywords
-                                            nil
-                                            fira-code-font-lock-keywords-alist)))
-    #+END_SRC
+  (add-hook 'prog-mode-hook (lambda () (font-lock-add-keywords
+                                        nil
+                                        fira-code-font-lock-keywords-alist)))
+#+END_SRC
 
 *** Parents coloring
-    Remove nasty delay between cursor stop and parenthesis highlighting.
-    #+BEGIN_SRC emacs-lisp
-      (setq show-paren-delay 0)
-      (setq show-paren-when-point-inside-paren t)
-    #+END_SRC
+Remove nasty delay between cursor stop and parenthesis highlighting.
+#+BEGIN_SRC emacs-lisp
+  (setq show-paren-delay 0)
+  (setq show-paren-when-point-inside-paren t)
+#+END_SRC
 * Programming languages
 ** R
-   Disable nasty keybinding setting underscore as assign (~<-~).
+Disable nasty keybinding setting underscore as assign (~<-~).
 
-   #+BEGIN_SRC emacs-lisp
-     (eval-when-compile
-       (require 'ess))
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'ess))
 
-     (add-hook 'ess-mode-hook
-               (lambda ()
-                 ;; remove underscore as assign symbol, put unused semicolon
-                 (setq ess-smart-S-assign-key ";")
-                 ;; (ess-disable-smart-S-assign)
-                 ))
-   #+END_SRC
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              ;; remove underscore as assign symbol, put unused semicolon
+              (setq ess-smart-S-assign-key ";")
+              ;; (ess-disable-smart-S-assign)
+              ))
+#+END_SRC
 
 
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'ess-mode-hook
-               (lambda ()
-                 (local-set-key (kbd "C-.") (lambda () (interactive) (insert " <- ")))))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-.") (lambda () (interactive) (insert " <- ")))))
+#+END_SRC
 
 ** LaTeX
-   Disable nasty auto fill feature.
+Disable nasty auto fill feature.
 
-   #+BEGIN_SRC emacs-lisp
-     (remove-hook 'LaTeX-mode-hook 'latex/auto-fill-mode)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (remove-hook 'LaTeX-mode-hook 'latex/auto-fill-mode)
+#+END_SRC
 
-   Latex normal text (no big titles, neither formulas trick)
+Latex normal text (no big titles, neither formulas trick)
 
-   #+BEGIN_SRC emacs-lisp
-     (setq font-latex-fontify-sectioning 'color)
-     (setq font-latex-fontify-script nil)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq font-latex-fontify-sectioning 'color)
+  (setq font-latex-fontify-script nil)
+#+END_SRC
 
-   Use ~pdf-tools~ to open PDF files instead of ~doc-view~ or external program.
+Use ~pdf-tools~ to open PDF files instead of ~doc-view~ or external program.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-           TeX-source-correlate-start-server t)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+        TeX-source-correlate-start-server t)
+#+END_SRC
 
-   Update PDF view after LaTeX build.
+Update PDF view after LaTeX build.
 
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-     (add-hook 'TeX-after-TeX-LaTeX-command-finished-hook
-               #'TeX-revert-document-buffer)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+  (add-hook 'TeX-after-TeX-LaTeX-command-finished-hook
+            #'TeX-revert-document-buffer)
+#+END_SRC
 
-   Always query the user for master file of current ~tex~ document.
+Always query the user for master file of current ~tex~ document.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq TeX-master nil)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq TeX-master nil)
+#+END_SRC
 
-   Custom indentation settings, plus custom build + view command.
+Custom indentation settings, plus custom build + view command.
 
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'LaTeX-mode-hook
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              ;; tabs settings
+              (setq tab-width (default-value 'tab-width))
+              ;; items are indented too
+              (setq LaTeX-item-indent 0)
+              ;; alternative latex build & view command kbd
+              (local-set-key
+               (kbd "s-e")
                (lambda ()
-                 ;; tabs settings
-                 (setq tab-width (default-value 'tab-width))
-                 ;; items are indented too
-                 (setq LaTeX-item-indent 0)
-                 ;; alternative latex build & view command kbd
-                 (local-set-key
-                  (kbd "s-e")
-                  (lambda ()
-                    (interactive)
-                    (let ((TeX-save-query nil))
-                      (TeX-command-sequence t t))))))
-   #+END_SRC
+                 (interactive)
+                 (let ((TeX-save-query nil))
+                   (TeX-command-sequence t t))))))
+#+END_SRC
 
-   This snippet automatically compiles ~bib~ files, not sure why.
-   See [[https://emacs.stackexchange.com/questions/13426/auctex-doesnt-run-bibtex][here]].
+This snippet automatically compiles ~bib~ files, not sure why.
+See [[https://emacs.stackexchange.com/questions/13426/auctex-doesnt-run-bibtex][here]].
 
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'LaTeX-mode-hook
-               (lambda ()
-                 (setq TeX-parse-self t) ; Enable parse on load.
-                 (setq TeX-auto-save t))) ; Enable parse on save.
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'LaTeX-mode-hook
+            (lambda ()
+              (setq TeX-parse-self t) ; Enable parse on load.
+              (setq TeX-auto-save t))) ; Enable parse on save.
+#+END_SRC
 
 ** Python
-   Indentation settings for Python
+Indentation settings for Python
 
-   #+BEGIN_SRC emacs-lisp
-     (eval-when-compile
-       (require 'python))
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'python))
 
-     (add-hook 'python-mode-hook
-               (lambda ()
-                 ;; (setq indent-tabs-mode t)
-                 (setq python-indent-offset 4)))
-   #+END_SRC
+  (add-hook 'python-mode-hook
+            (lambda ()
+              ;; (setq indent-tabs-mode t)
+              (setq python-indent-offset 4)))
+#+END_SRC
 
-   Run ~isort~ (import sorter) before file is saved.
+Run ~isort~ (import sorter) before file is saved.
 
-   #+BEGIN_SRC emacs-lisp
-     (require 'py-isort)
+#+BEGIN_SRC emacs-lisp
+  (require 'py-isort)
 
-     (add-hook 'before-save-hook 'py-isort-before-save)
-   #+END_SRC
+  (add-hook 'before-save-hook 'py-isort-before-save)
+#+END_SRC
 
 ** Rust
-   This tweak is a workaround to rust ~racer~ bad performace.
+This tweak is a workaround to rust ~racer~ bad performace.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq rust-match-angle-brackets nil)
-     (setq racer-rust-src-path
-           "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/")
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq rust-match-angle-brackets nil)
+  (setq racer-rust-src-path
+        "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/")
+#+END_SRC
 
+** SQL
+Enable ~sqlind~ indentation on SQL code blocks.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'sql-mode-hook 'sqlind-minor-mode)
+#+END_SRC
 * Dired
-  If another Dired buffer is open in current frame its path is the default one to copy selected file.
+If another Dired buffer is open in current frame its path is the default one to copy selected file.
 
-  #+BEGIN_SRC emacs-lisp
-    (setq dired-dwim-target t)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq dired-dwim-target t)
+#+END_SRC
 
-  Set Dired level of details when displaying files.
+Set Dired level of details when displaying files.
 
-  #+BEGIN_SRC emacs-lisp
-    (setq dired-listing-switches "-al")
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq dired-listing-switches "-al")
+#+END_SRC
 
-  Add handy keybind to WDired.
+Add handy keybind to WDired.
 
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'dired-mode-hook
-              (lambda ()
-                (local-set-key
-                 (kbd "W")
-                 'wdired-change-to-wdired-mode)))
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (local-set-key
+               (kbd "W")
+               'wdired-change-to-wdired-mode)))
+#+END_SRC
 
-  Enable ~all-the-icons~ in Dired as file icons.
+Enable ~all-the-icons~ in Dired as file icons.
 
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'dired-mode-hook
-              'all-the-icons-dired-mode)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-mode-hook
+            'all-the-icons-dired-mode)
+#+END_SRC
 
 * Org mode
 ** Babel
-   Indent code in ~org-babel~ with TAB.
+Indent code in ~org-babel~ with TAB.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-src-tab-acts-natively t)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-tab-acts-natively t)
+#+END_SRC
 
-   Enable code blocks in org files.
+Enable code blocks in org files.
 
-   #+BEGIN_SRC emacs-lisp
-     (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((asymptote . t)
-        (python . t)
-        (dot . t)
-        (awk . t)
-        (ditaa . t)
-        (asymptote . t)
-        (plantuml . t)
-        (hledger . t)
-        (R . t)
-        (shell . t)))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((asymptote . t)
+     (python . t)
+     (dot . t)
+     (awk . t)
+     (ditaa . t)
+     (asymptote . t)
+     (plantuml . t)
+     (hledger . t)
+     (R . t)
+     (shell . t)))
+#+END_SRC
 
-   Nice hook I found on ~org-babel~ examples for automatic showing images.
+Nice hook I found on ~org-babel~ examples for automatic showing images.
 
-   #+BEGIN_SRC emacs-lisp :tangle no
-     (add-hook 'org-babel-after-execute-hook (lambda () (org-display-inline-images nil t) (org-redisplay-inline-images)))
-     (setq org-confirm-babel-evaluate nil)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp :tangle no
+  (add-hook 'org-babel-after-execute-hook (lambda () (org-display-inline-images nil t) (org-redisplay-inline-images)))
+  (setq org-confirm-babel-evaluate nil)
+#+END_SRC
 
-   Load ~asymptote~ from system installation.
+Load ~asymptote~ from system installation.
 
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'load-path "/usr/share/asymptote")
-     (autoload 'asy-mode "asy-mode.el" "Asymptote major mode." t)
-     (autoload 'lasy-mode "asy-mode.el" "hybrid Asymptote/Latex major mode." t)
-     (autoload 'asy-insinuate-latex "asy-mode.el" "Asymptote insinuate LaTeX." t)
-     (add-to-list 'auto-mode-alist '("\\.asy$" . asy-mode))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "/usr/share/asymptote")
+  (autoload 'asy-mode "asy-mode.el" "Asymptote major mode." t)
+  (autoload 'lasy-mode "asy-mode.el" "hybrid Asymptote/Latex major mode." t)
+  (autoload 'asy-insinuate-latex "asy-mode.el" "Asymptote insinuate LaTeX." t)
+  (add-to-list 'auto-mode-alist '("\\.asy$" . asy-mode))
+#+END_SRC
 
-   Load PlantUML executable.
+Load PlantUML executable.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+#+END_SRC
 
-   Load ~ditaa~ executable.
-   #+BEGIN_SRC emacs-lisp
-     (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
-   #+END_SRC
+Load ~ditaa~ executable.
+#+BEGIN_SRC emacs-lisp
+  (setq org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
+#+END_SRC
 
 ** Ref
-   All global files are relative to ~BIBINPUTS~ path, in order to be consistent with LaTeX.
+All global files are relative to ~BIBINPUTS~ path, in order to be consistent with LaTeX.
 
-   #+BEGIN_SRC emacs-lisp
-     (require 'bibtex)
+#+BEGIN_SRC emacs-lisp
+  (require 'bibtex)
 
-     (setq reftex-default-bibliography (list (concat (getenv "BIBINPUTS") "biblio.bib")))
+  (setq reftex-default-bibliography (list (concat (getenv "BIBINPUTS") "biblio.bib")))
 
-     ;; see org-ref for use of these variables
-     (setq org-ref-bibliography-notes (concat (getenv "BIBINPUTS") "notes.org")
-           org-ref-default-bibliography (list (concat (getenv "BIBINPUTS") "biblio.bib"))
-           org-ref-pdf-directory (concat (getenv "BIBINPUTS") "Paper/"))
-   #+END_SRC
+  ;; see org-ref for use of these variables
+  (setq org-ref-bibliography-notes (concat (getenv "BIBINPUTS") "notes.org")
+        org-ref-default-bibliography (list (concat (getenv "BIBINPUTS") "biblio.bib"))
+        org-ref-pdf-directory (concat (getenv "BIBINPUTS") "Paper/"))
+#+END_SRC
 
-   Custom reference key generation.
+Custom reference key generation.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq bibtex-autokey-year-length 4
-           bibtex-autokey-name-year-separator ""
-           bibtex-autokey-year-title-separator ""
-           bibtex-autokey-titleword-separator "-"
-           bibtex-autokey-titlewords 0
-           bibtex-autokey-titlewords-stretch 0
-           bibtex-autokey-titleword-length 0
-           bibtex-autokey-name-case-convert-function 'capitalize)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq bibtex-autokey-year-length 4
+        bibtex-autokey-name-year-separator ""
+        bibtex-autokey-year-title-separator ""
+        bibtex-autokey-titleword-separator "-"
+        bibtex-autokey-titlewords 0
+        bibtex-autokey-titlewords-stretch 0
+        bibtex-autokey-titleword-length 0
+        bibtex-autokey-name-case-convert-function 'capitalize)
+#+END_SRC
 
-   Bibtex step was required to have LaTeX see the global ~bib~ file.
-   Bibliography file must be put into ~BIBINPUTS~ folder and path must not have special characters (thanks LaTeX).
+Bibtex step was required to have LaTeX see the global ~bib~ file.
+Bibliography file must be put into ~BIBINPUTS~ folder and path must not have special characters (thanks LaTeX).
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-latex-pdf-process
-           '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
-             "bibtex %b"
-             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
-             "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-latex-pdf-process
+        '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "bibtex %b"
+          "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
 
-   Put caption below all floats (images, tables, ...).
+Put caption below all floats (images, tables, ...).
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-latex-caption-above nil)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-latex-caption-above nil)
+#+END_SRC
 
-   Do not "mangle" labels in ~tex~ output.
+Do not "mangle" labels in ~tex~ output.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-latex-prefer-user-labels t)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-latex-prefer-user-labels t)
+#+END_SRC
 
-   Enable ~eps~ preview in ~org mode~.
+Enable ~eps~ preview in ~org mode~.
 
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'image-type-file-name-regexps '("\\.eps\\'" . imagemagick)  )
-     (add-to-list 'image-file-name-extensions "eps")
-     (setq org-image-actual-width '(200))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'image-type-file-name-regexps '("\\.eps\\'" . imagemagick)  )
+  (add-to-list 'image-file-name-extensions "eps")
+  (setq org-image-actual-width '(200))
+#+END_SRC
 
-   Customize the capture-like template for taking notes.
-   #+BEGIN_SRC emacs-lisp
-     (setq org-ref-note-title-format
-           "** %y - %t
-      :PROPERTIES:
-       :Custom_ID: %k
-       :AUTHOR: %9a
-       :JOURNAL: %j
-       :YEAR: %y
-       :VOLUME: %v
-       :PAGES: %p
-       :DOI: %D
-       :URL: %U
-      :END:
+Customize the capture-like template for taking notes.
+#+BEGIN_SRC emacs-lisp
+  (setq org-ref-note-title-format
+        "** %y - %t
+   :PROPERTIES:
+    :Custom_ID: %k
+    :AUTHOR: %9a
+    :JOURNAL: %j
+    :YEAR: %y
+    :VOLUME: %v
+    :PAGES: %p
+    :DOI: %D
+    :URL: %U
+   :END:
 
-     ")
-   #+END_SRC
+  ")
+#+END_SRC
 
 ** LaTeX
-   Set bigger preview for LaTeX formulas.
+Set bigger preview for LaTeX formulas.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
+#+END_SRC
+
+Utility function for enabling automatic LaTeX preview.
+Stolen from [[https://emacs.stackexchange.com/questions/38198/automatically-preview-latex-in-org-mode-as-soon-as-i-finish-typing][here]].
+
+#+BEGIN_SRC emacs-lisp
+  (defun org-render-latex-fragments ()
+    (if (org--list-latex-overlays)
+        (progn (org-toggle-latex-fragment)
+               (org-toggle-latex-fragment))
+      (org-toggle-latex-fragment)))
+#+END_SRC
 
 * Magit
 ** Magit TODOs
-   Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
-   #+BEGIN_SRC emacs-lisp
-     (magit-todos-mode)
-   #+END_SRC
+Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
+#+BEGIN_SRC emacs-lisp
+  (magit-todos-mode)
+#+END_SRC
 
 * hledger
-  Open files with ~.journal~ extension in hledger-mode.
+Open files with ~.journal~ extension in hledger-mode.
 
-  #+BEGIN_SRC emacs-lisp
-    (require 'hledger-mode)
+#+BEGIN_SRC emacs-lisp
+  (require 'hledger-mode)
 
-    (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
-  #+END_SRC
+  (add-to-list 'auto-mode-alist '("\\.journal\\'" . hledger-mode))
+#+END_SRC
 
-  Auto-complete names with ~company~.
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'hledger-mode-hook
-              (lambda () (add-to-list 'company-backends 'hledger-company)))
-  #+END_SRC
+Auto-complete names with ~company~.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'hledger-mode-hook
+            (lambda () (add-to-list 'company-backends 'hledger-company)))
+#+END_SRC
 
-  Set default file.
-  #+BEGIN_SRC emacs-lisp
-    (setq hledger-jfile "/home/enrico/Archivi/ledger/ledger.journal")
-  #+END_SRC
+Set default file.
+#+BEGIN_SRC emacs-lisp
+  (setq hledger-jfile "/home/enrico/Archivi/ledger/ledger.journal")
+#+END_SRC
 * pdf-tools
-  Add proper commands for common annotation actions.
+Add proper commands for common annotation actions.
 
-  #+BEGIN_SRC emacs-lisp
-    (require 'pdf-tools)
-    (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
-    ;; (defun pdf-annot-add-text-annotation-with-activation ()
-    ;;   (interactive)
-    ;;   (let ((pdf-annot-activate-created-annotations t))
-    ;;     (pdf-annot-add-text-annotation '(3))))
+#+BEGIN_SRC emacs-lisp
+  (require 'pdf-tools)
+  (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
+  ;; (defun pdf-annot-add-text-annotation-with-activation ()
+  ;;   (interactive)
+  ;;   (let ((pdf-annot-activate-created-annotations t))
+  ;;     (pdf-annot-add-text-annotation '(3))))
 
-    ;; (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation-with-activation)
-    (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
-  #+END_SRC
+  ;; (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation-with-activation)
+  (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
+#+END_SRC
 
-  Improved kill region in PDF, that shows starting piece of selection.
+Improved kill region in PDF, that shows starting piece of selection.
 
-  #+BEGIN_SRC emacs-lisp
-    (defun pdf-view-kill-ring-save-with-message ()
-      (interactive)
-      (let* ((selection (car (pdf-view-active-region-text)))
-             (snippet (substring selection 0 (min (length snippet) 20))))
-        (message (concat "copying \"" snippet "...\" to kill ring")))
-      (pdf-view-kill-ring-save))
+#+BEGIN_SRC emacs-lisp
+  (defun pdf-view-kill-ring-save-with-message ()
+    (interactive)
+    (let* ((selection (car (pdf-view-active-region-text)))
+           (snippet (substring selection 0 (min (length snippet) 20))))
+      (message (concat "copying \"" snippet "...\" to kill ring")))
+    (pdf-view-kill-ring-save))
 
-    (define-key pdf-view-mode-map (kbd "y") 'pdf-view-kill-ring-save-with-message)
-  #+END_SRC
+  (define-key pdf-view-mode-map (kbd "y") 'pdf-view-kill-ring-save-with-message)
+#+END_SRC
 
 * Local variables
-  Automatically tangle and compile file on save.
-  Idea for placing this on a section comes from [[http://endlessparentheses.com/org-mode-subtrees-and-file-local-variables.html][here]].
+Automatically tangle and compile file on save.
+Idea for placing this on a section comes from [[http://endlessparentheses.com/org-mode-subtrees-and-file-local-variables.html][here]].
 
-  # Local Variables:
-  # eval: (add-hook 'before-save-hook (lambda () (indent-region (point-min) (point-max) nil)) t t)
-  # eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
-  # End:
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
+# End:

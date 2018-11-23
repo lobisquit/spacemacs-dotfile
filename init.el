@@ -78,6 +78,7 @@ values."
                                       hledger-mode
                                       keychain-environment
                                       magit-todos
+                                      sql-indent
                                       plantuml-mode)
 
    ;; A list of packages that cannot be updated.
