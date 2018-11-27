@@ -697,6 +697,16 @@ Stolen from [[https://emacs.stackexchange.com/questions/38198/automatically-prev
 
 #+END_SRC
 
+Updated list of unwanted files after ~Org~ PDF creation.
+See [[https://emacs.stackexchange.com/a/24000][here]] for the discussion.
+#+BEGIN_SRC emacs-lisp
+  (setq org-latex-logfiles-extensions
+        '("lof" "lot" "tex~" "aux" "idx"
+          "log" "out" "toc" "nav" "snm"
+          "vrb" "dvi" "fdb_latexmk" "blg"
+          "brf" "fls" "entoc" "ps" "spl" "bbl"))
+#+END_SRC
+
 * Magit
 ** Magit TODOs
 Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
