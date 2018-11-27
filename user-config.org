@@ -707,6 +707,20 @@ See [[https://emacs.stackexchange.com/a/24000][here]] for the discussion.
           "brf" "fls" "entoc" "ps" "spl" "bbl"))
 #+END_SRC
 
+Nice macro to input equations.
+
+#+BEGIN_SRC emacs-lisp
+  (defun org-insert-equation ()
+    (interactive)
+    (insert "\\begin{equation}\n\n\\end{equation}")
+    (previous-line 1)
+    (insert "  ")
+    (org-edit-special))
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-.") 'org-insert-equation)))
+#+END_SRC
 * Magit
 ** Magit TODOs
 Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
