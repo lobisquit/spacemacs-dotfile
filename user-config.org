@@ -721,6 +721,11 @@ Nice macro to input equations.
             (lambda ()
               (local-set-key (kbd "C-.") 'org-insert-equation)))
 #+END_SRC
+
+Default ~org-ref~ link in LaTeX should have ~autoref~.
+#+BEGIN_SRC emacs-lisp
+  (setq org-ref-default-ref-type "autoref")
+#+END_SRC
 * Magit
 ** Magit TODOs
 Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
