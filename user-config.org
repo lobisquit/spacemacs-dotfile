@@ -60,6 +60,11 @@ Put ~custom-set-variables~ inside a proper gitignored file.
   (load-file custom-file)
 #+END_SRC
 
+Put bookmark inside this tracked folder.
+#+BEGIN_SRC emacs-lisp
+  (setq bookmark-default-file "~/.spacemacs.d/bookmarks")
+#+END_SRC
+
 ** Editing operations
 These settings involve how text is changed in Emacs.
 *** Changing text properties
