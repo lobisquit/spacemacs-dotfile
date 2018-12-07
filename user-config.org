@@ -1,6 +1,7 @@
 #+PROPERTY: header-args+ :results silent
 #+PROPERTY: header-args+ :tangle yes
 #+PROPERTY: header-args+ :cache yes
+#+STARTUP: indent
 
 * General settings
   Keep backup copies of files, but in .emacs directory.
@@ -57,6 +58,11 @@
   #+BEGIN_SRC emacs-lisp
     (setq custom-file "~/.spacemacs.d/custom-file.el")
     (load-file custom-file)
+  #+END_SRC
+
+  Put bookmark inside this tracked folder.
+  #+BEGIN_SRC emacs-lisp
+    (setq bookmark-default-file "~/.spacemacs.d/bookmarks")
   #+END_SRC
 
 ** Editing operations
@@ -247,6 +253,9 @@
        ((not (display-mm-width)) nil)
        ((< (display-mm-width) 400) (small-display-conf))
        (t (big-display-conf)))
+    #+END_SRC
+
+    (golden-ratio-mode t)
     #+END_SRC
 
     Disable golden ration for certain buffers.
@@ -527,6 +536,12 @@
            "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/")
    #+END_SRC
 
+** SQL
+   Enable ~sqlind~ indentation on SQL code blocks.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'sql-mode-hook 'sqlind-minor-mode)
+   #+END_SRC
 * Dired
   If another Dired buffer is open in current frame its path is the default one to copy selected file.
 
@@ -693,6 +708,48 @@
      (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
    #+END_SRC
 
+   Utility function for enabling automatic LaTeX preview.
+   Stolen from [[https://emacs.stackexchange.com/questions/38198/automatically-preview-latex-in-org-mode-as-soon-as-i-finish-typing][here]].
+
+   #+BEGIN_SRC emacs-lisp
+     (defun org-render-latex-fragments ()
+       (let ((globally '(16)))
+         (if (org--list-latex-overlays)
+             (progn (org-toggle-latex-fragment globally)
+                    (org-toggle-latex-fragment globally))
+           (org-toggle-latex-fragment globally))))
+
+   #+END_SRC
+
+   Updated list of unwanted files after ~Org~ PDF creation.
+   See [[https://emacs.stackexchange.com/a/24000][here]] for the discussion.
+   #+BEGIN_SRC emacs-lisp
+     (setq org-latex-logfiles-extensions
+           '("lof" "lot" "tex~" "aux" "idx"
+             "log" "out" "toc" "nav" "snm"
+             "vrb" "dvi" "fdb_latexmk" "blg"
+             "brf" "fls" "entoc" "ps" "spl" "bbl"))
+   #+END_SRC
+
+   Nice macro to input equations.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun org-insert-equation ()
+       (interactive)
+       (insert "\\begin{equation}\n\n\\end{equation}")
+       (previous-line 1)
+       (insert "  ")
+       (org-edit-special))
+
+     (add-hook 'org-mode-hook
+               (lambda ()
+                 (local-set-key (kbd "C-.") 'org-insert-equation)))
+   #+END_SRC
+
+   Default ~org-ref~ link in LaTeX should have ~autoref~.
+   #+BEGIN_SRC emacs-lisp
+     (setq org-ref-default-ref-type "autoref")
+   #+END_SRC
 * Magit
 ** Magit TODOs
    Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
@@ -752,6 +809,5 @@
   Idea for placing this on a section comes from [[http://endlessparentheses.com/org-mode-subtrees-and-file-local-variables.html][here]].
 
   # Local Variables:
-  # eval: (add-hook 'before-save-hook (lambda () (indent-region (point-min) (point-max) nil)) t t)
   # eval: (add-hook 'after-save-hook 'org-babel-tangle-and-byte-compile-this-file t t)
   # End:
