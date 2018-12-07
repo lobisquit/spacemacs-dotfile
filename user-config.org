@@ -218,19 +218,35 @@
     #+END_SRC
 
 *** Window management
-    This setting ensure that new buffer are open splitting screen horizontally, not vertically.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq split-height-threshold 50)
-      (setq split-width-threshold 70)
-    #+END_SRC
-
+    ~split~ settings ensure that new buffer are open splitting screen horizontally, not vertically.
     Enable golden ratio, that makes buffer on focus bigger on the screen.
 
     #+BEGIN_SRC emacs-lisp
       (require 'golden-ratio)
 
-      (golden-ratio-mode t)
+      (defun small-display-conf ()
+        (message "Small display mode")
+
+        (if (not golden-ratio-mode)
+            (call-interactively 'golden-ratio-mode))
+
+        (setq split-height-threshold 50)
+        (setq split-width-threshold 70))
+
+
+      (defun big-display-conf ()
+        (message "Big display mode")
+
+        (if golden-ratio-mode
+            (call-interactively 'golden-ratio-mode))
+
+        (setq split-height-threshold 80)
+        (setq split-width-threshold 70))
+
+      (cond
+       ((not (display-mm-width)) nil)
+       ((< (display-mm-width) 400) (small-display-conf))
+       (t (big-display-conf)))
     #+END_SRC
 
     Disable golden ration for certain buffers.
