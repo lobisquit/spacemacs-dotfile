@@ -3,10 +3,10 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("RWTH"
- (filename . "/ssh:qt636081@cluster.rz.rwth-aachen.de:/home/qt636081/")
- (front-context-string . ".bashrc\n  -rw-rw")
- (rear-context-string . " Aug 31  2007  ")
- (position . 233))
+ (filename . "/ssh:qt636081@cluster.rz.rwth-aachen.de:/home/qt636081/master_thesis/")
+ (front-context-string . "aachen_net.org\n ")
+ (rear-context-string . " Dec  9 17:59  ")
+ (position . 251))
 ("DEI"
  (filename . "/ssh:lovisott@login.dei.unipd.it:/home/lovisott/master_thesis/")
  (front-context-string . "data\n  -rw-r--r-")
