@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("RWTH"
+(("pc_lab"
+ (filename . "/ssh:enrico@25.48.101.208:/home/enrico/projects/master_thesis/")
+ (front-context-string . "ltximg\n  drwxrwx")
+ (rear-context-string . " Dec  4 14:51  ")
+ (position . 715))
+("RWTH"
  (filename . "/ssh:qt636081@cluster.rz.rwth-aachen.de:/home/qt636081/")
  (front-context-string . ".bashrc\n  -rw-rw")
  (rear-context-string . " Aug 31  2007  ")
