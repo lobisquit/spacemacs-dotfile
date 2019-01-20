@@ -59,7 +59,7 @@ values."
      ess
      (latex :variables latex-build-command "LaTeX")
      c-c++
-     gtags
+     ;; gtags
      bibtex
      ;; markdown
      ;; org
