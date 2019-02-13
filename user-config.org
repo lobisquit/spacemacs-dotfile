@@ -804,7 +804,12 @@ Improved kill region in PDF, that shows starting piece of selection.
 
   (define-key pdf-view-mode-map (kbd "y") 'pdf-view-kill-ring-save-with-message)
 #+END_SRC
+* Writefreely
+Set user agent token to publish on ~writefreely~.
 
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq writefreely-auth-token "00000000-0000-0000-0000-000000000000")
+#+END_SRC
 * Local variables
 Automatically tangle and compile file on save.
 Idea for placing this on a section comes from [[http://endlessparentheses.com/org-mode-subtrees-and-file-local-variables.html][here]].

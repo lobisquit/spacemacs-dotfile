@@ -78,6 +78,7 @@ values."
                                       all-the-icons-dired
                                       hledger-mode
                                       keychain-environment
+                                      writefreely
                                       magit-todos
                                       sql-indent
                                       plantuml-mode)
