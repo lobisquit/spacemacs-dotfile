@@ -1,19 +1,14 @@
-;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("pc_lab"
- (filename . "/ssh:enrico@25.48.101.208:/home/enrico/projects/master_thesis/")
- (front-context-string . "ltximg\n  drwxrwx")
- (rear-context-string . " Dec  4 14:51  ")
- (position . 715))
-("RWTH"
+(("RWTH"
  (filename . "/ssh:qt636081@cluster.rz.rwth-aachen.de:/home/qt636081/master_thesis/")
  (front-context-string . "aachen_net.org\n ")
  (rear-context-string . " Dec  9 17:59  ")
  (position . 251))
 ("DEI"
- (filename . "/ssh:lovisott@login.dei.unipd.it:/home/lovisott/master_thesis/")
+ (filename . "/ssh:lovisott@login.dei.unipd.it:/home/lovisott/")
  (front-context-string . "data\n  -rw-r--r-")
  (rear-context-string . " Nov  5 19:20  ")
  (position . 480))
