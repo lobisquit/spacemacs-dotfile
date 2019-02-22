@@ -574,6 +574,13 @@ Enable ~all-the-icons~ in Dired as file icons.
 #+END_SRC
 
 * Org mode
+Enable ~:ignore:~ tag for titles.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-extra)
+  (ox-extras-activate '(ignore-headlines))
+#+END_SRC
+
 ** Babel
 Indent code in ~org-babel~ with TAB.
 
