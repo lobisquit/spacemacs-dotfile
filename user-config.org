@@ -752,6 +752,10 @@ Default ~org-ref~ link in LaTeX should have ~autoref~.
   (setq org-ref-default-ref-type "autoref")
 #+END_SRC
 * Magit
+#+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "<f13> g s") 'magit)
+#+END_SRC
+
 ** Magit TODOs
 Activate minor mode globally, as in its [[https://github.com/alphapapa/magit-todos#usage][README]].
 #+BEGIN_SRC emacs-lisp

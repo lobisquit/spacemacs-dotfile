@@ -54,7 +54,7 @@ values."
      ;; better-defaults
      emacs-lisp
      themes-megapack
-     git
+     ;; git
      pdf-tools
      ess
      (latex :variables latex-build-command "LaTeX")
@@ -77,9 +77,11 @@ values."
    dotspacemacs-additional-packages '(all-the-icons
                                       all-the-icons-dired
                                       hledger-mode
+                                      ggtags
                                       keychain-environment
                                       writefreely
                                       magit-todos
+                                      magit-popup
                                       sql-indent
                                       plantuml-mode)
 
