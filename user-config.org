@@ -625,7 +625,7 @@ Load ~asymptote~ from system installation.
 Load PlantUML executable.
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-plantuml-jar-path "/opt/plantuml/plantuml.jar")
+  (setq org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
 #+END_SRC
 
 Load ~ditaa~ executable.
