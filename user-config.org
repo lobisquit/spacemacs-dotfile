@@ -676,14 +676,6 @@ Do not "mangle" labels in ~tex~ output.
   (setq org-latex-prefer-user-labels t)
 #+END_SRC
 
-Enable ~eps~ preview in ~org mode~.
-
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'image-type-file-name-regexps '("\\.eps\\'" . imagemagick)  )
-  (add-to-list 'image-file-name-extensions "eps")
-  (setq org-image-actual-width '(200))
-#+END_SRC
-
 Customize the capture-like template for taking notes.
 #+BEGIN_SRC emacs-lisp
   (setq org-ref-note-title-format
