@@ -743,6 +743,36 @@ Default ~org-ref~ link in LaTeX should have ~autoref~.
 #+BEGIN_SRC emacs-lisp
   (setq org-ref-default-ref-type "autoref")
 #+END_SRC
+
+Add custom class ~IEEEtran~ and (UniPD) Dissertate.
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-latex)
+
+  (unless (boundp 'org-latex-classes)
+    (setq org-latex-classes nil))
+
+  (add-to-list 'org-latex-classes
+               '("IEEEtran"
+                 "\\documentclass{IEEEtran}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  (add-to-list 'org-latex-classes
+               '("dissertate" "\\documentclass{Dissertate}
+                         [NO-DEFAULT-PACKAGES]
+                         [PACKAGES]
+                         [EXTRA]"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+END_SRC
+
 * Magit
 #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "<f13> g s") 'magit)
