@@ -487,14 +487,7 @@ Custom indentation settings, plus custom build + view command.
               ;; tabs settings
               (setq tab-width (default-value 'tab-width))
               ;; items are indented too
-              (setq LaTeX-item-indent 0)
-              ;; alternative latex build & view command kbd
-              (local-set-key
-               (kbd "s-e")
-               (lambda ()
-                 (interactive)
-                 (let ((TeX-save-query nil))
-                   (TeX-command-sequence t t))))))
+              (setq LaTeX-item-indent 0)))
 #+END_SRC
 
 This snippet automatically compiles ~bib~ files, not sure why.
